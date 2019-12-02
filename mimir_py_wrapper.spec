@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['pythonwrapper/mimir_py_wrapper.py'],
+a = Analysis(['driver.py'],
              pathex=['/home/coverstreet/Coding/RAA_Mimir'],
              binaries=[('./libmimirbackend/libmimirbackend.so', '.')],
              datas=[],
@@ -19,18 +19,12 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          [],
-          exclude_binaries=True,
-          name='mimir_py_wrapper',
+a.binaries,
+a.zipfiles,
+a.datas,
+          name='mimir_driver',
           debug=False,
-          bootloader_ignore_signals=False,
           strip=False,
           upx=True,
+runtime_tmpdir=None,
           console=True )
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=True,
-               name='mimir_py_wrapper')

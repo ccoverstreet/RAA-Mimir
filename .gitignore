@@ -3,4 +3,5 @@ dist
 mimirpywrapper/__pycache__
 libmimirbackend/libmimirbackend.so
 libmimirbackend/objects/*.o
+__pycache__
 
