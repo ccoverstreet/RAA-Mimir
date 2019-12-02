@@ -1,6 +1,6 @@
 build
 dist
-pythonwrapper/__pycache__
+mimirpywrapper/__pycache__
 libmimirbackend/libmimirbackend.so
 libmimirbackend/objects/*.o
 
