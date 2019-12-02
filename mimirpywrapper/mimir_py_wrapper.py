@@ -160,7 +160,7 @@ if __name__ == "__main__":
     testobject = trajectorymodel()
 
     print(testobject.len_x_positions())
-    testobject.fill_data(5)
+    testobject.fill_data(100)
 
     print("Times and x, y, z positions")
     for i in range(0, testobject.len_x_positions()):

@@ -8,8 +8,7 @@
 #include <vector>
 
 class trajectorymodel {
-
-	public:
+	private:
 		std::vector<double> times;
 		std::vector<double> x_positions;
 		std::vector<double> y_positions;
@@ -23,11 +22,37 @@ class trajectorymodel {
 		std::vector<double> y_accelerations;
 		std::vector<double> z_accelerations;
 
+	public:
+		
 		~trajectorymodel();
 		void identify(); // Prints out object type. Used for setup testing.
 		int fill_data(int);
 		double index_data(int);
 
+		// Get declarations
+		double get_times(int);
+		double get_x_positions(int);
+		double get_y_positions(int);
+		double get_z_positions(int);
+		double get_x_velocities(int);
+		double get_y_velocities(int);
+		double get_z_velocities(int);
+		double get_halftimes(int);
+		double get_x_accelerations(int);
+		double get_y_accelerations(int);
+		double get_z_accelerations(int);
+
+		int len_times();
+		int len_x_positions();
+		int len_y_positions();
+		int len_z_positions();
+		int len_x_velocities();
+		int len_y_velocities();
+		int len_z_velocities();
+		int len_halftimes();
+		int len_x_accelerations();
+		int len_y_accelerations();
+		int len_z_accelerations();
 };
 
 // START OF C INTERFACE DECLARATIONS
@@ -38,118 +63,90 @@ extern "C" {
 	}
 
 	void delete_trajectorymodel(trajectorymodel* ptr) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
 	}
 
-	// Interactions with x_positions
+	// Getters for each holder vector
 	double get_times(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->times[index];
-	}
-	int len_times(trajectorymodel* ptr) { // Returns length of x_positions vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->times.size();
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_times(index);
 	}
 
-	// Interactions with x_positions
 	double get_x_positions(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_positions[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_x_positions(index);
 	}
-	int len_x_positions(trajectorymodel* ptr) { // Returns length of x_positions vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_positions.size();
-	}
-
-	//Interactions with y_positions
 	double get_y_positions(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_positions[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_y_positions(index);
 	}
-	int len_y_positions(trajectorymodel* ptr) { // Returns length of x_positions vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_positions.size();
-	}
-
-	// Interactions with z_positions
 	double get_z_positions(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_positions[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_z_positions(index);
 	}
-	int len_z_positions(trajectorymodel* ptr) { // Returns length of x_positions vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_positions.size();
-	}
-	
+
 	double get_x_velocities(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_velocities[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_x_velocities(index);
 	}
-	int len_x_velocities(trajectorymodel* ptr) { // Returns length of x_velocities vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_velocities.size();
-	}
-
 	double get_y_velocities(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_velocities[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_y_velocities(index);
 	}
-	int len_y_velocities(trajectorymodel* ptr) { // Returns length of y_velocities vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_velocities.size();
-	}
-
 	double get_z_velocities(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_velocities[index];
-	}
-	int len_z_velocities(trajectorymodel* ptr) { // Returns length of z_velocities vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_velocities.size();
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_z_velocities(index);
 	}
 
-	double get_halftimes(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->halftimes[index];
-	}
-	int len_halftimes(trajectorymodel* ptr) { // Returns length of halftimes vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->halftimes.size();
+	double get_halftimes(trajectorymodel* ptr, int index) {		
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_halftimes(index);
 	}
 
 	double get_x_accelerations(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_accelerations[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_x_accelerations(index);
 	}
-	int len_x_accelerations(trajectorymodel* ptr) { // Returns length of x_accelerations vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->x_accelerations.size();
+	double get_y_accelerations(trajectorymodel* ptr, int index) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_y_accelerations(index);
+	}
+	double get_z_accelerations(trajectorymodel* ptr, int index) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_z_accelerations(index);
+	}
+	
+
+	// Size getters for vectors
+	int len_times(trajectorymodel* ptr) { // Returns length of x_positions vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_times();
 	}
 
-	double get_y_accelerations(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_accelerations[index];
+	int len_x_positions(trajectorymodel* ptr) { // Returns length of x_positions vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_x_positions();
+	}
+	int len_y_positions(trajectorymodel* ptr) { // Returns length of y_positions vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_y_positions();
+	}
+	int len_z_positions(trajectorymodel* ptr) { // Returns length of z_positions vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_z_positions();
+	}
+	
+	int len_x_velocities(trajectorymodel* ptr) { // Returns length of x_velocities vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_x_velocities();
+	}
+	int len_y_velocities(trajectorymodel* ptr) { // Returns length of y_velocities vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_y_velocities();
+	}
+	int len_z_velocities(trajectorymodel* ptr) { // Returns length of z_velocities vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_z_velocities();
+	}
+
+	int len_halftimes(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_halftimes();
+	}
+
+	int len_x_accelerations(trajectorymodel* ptr) { // Returns length of x_accelerations vector
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_x_accelerations();
 	}
 	int len_y_accelerations(trajectorymodel* ptr) { // Returns length of y_accelerations vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->y_accelerations.size();
-	}
-
-
-	double get_z_accelerations(trajectorymodel* ptr, int index) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_accelerations[index];
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_y_accelerations();
 	}
 	int len_z_accelerations(trajectorymodel* ptr) { // Returns length of z_accelerations vector
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref->z_accelerations.size();
+		return reinterpret_cast<trajectorymodel*>(ptr)->len_z_accelerations();
 	}
-
-
+	
 
 	int trajectorymodel_fill_data(trajectorymodel* ptr, int size) {
-		trajectorymodel* ref = reinterpret_cast<trajectorymodel*>(ptr);
-		return ref -> fill_data(size);
+		return reinterpret_cast<trajectorymodel*>(ptr)->fill_data(size);
 	}
 
 }
