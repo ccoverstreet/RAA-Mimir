@@ -16,6 +16,8 @@ My preferred development and build platform. Everything just works.
     - Should build succesfully. libmimirbackend.so is linked staticly using the `-static` flag.
 2. To make sure the library was built correctly and that Python can import it, run the command `python driver.py` to run the test driver. 
     - This should print out some results from the test script. If you are unable to troubleshoot why it is not building succesfully, please create an issue. I hope to squash all the bugs related to compilation on each platform. 
+3. You can use RAA Mimir by running `python raa_mimir.py`, or you can create a single executable file using PyInstaller
+    - To create the executable, run `pyinstaller raa_mimir.spec`
 
 ## Windows
 
@@ -28,6 +30,8 @@ To build and run test driver:
     - Should build succesfully. libmimirbackend.so is linked staticly using the `-static` flag, since building on Windows and importing the library through Python resulted in the linked DLLs not being found. Unfortunately this does create a larger executable size.
 2. To make sure the library was built correctly and that Python can import it, run the command `python driver.py` to run the test driver. 
     - This should print out some results from the test script. If you are unable to troubleshoot why it is not building succesfully, please create an issue. I hope to squash all the bugs related to compilation on each platform. 
+3. You can use RAA Mimir by running `python raa_mimir.py`, or you can create a single executable file using PyInstaller
+    - To create the executable, run `pyinstaller raa_mimir.spec`
 
 
 ## MacOS
