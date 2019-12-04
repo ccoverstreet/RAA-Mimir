@@ -1,9 +1,9 @@
-import mimirpywrapper.mimir_py_wrapper as mimirwrap
+import mimirpywrapper.trajectorymodel as mimir
 
 
 def main():
     print("Test driver for Mimir Backend Library and Wrapper")
-    x = mimirwrap.trajectorymodel()
+    x = mimir.trajectorymodel()
 
     x.fill_data(10)
     print("Length of x is {}".format(x.len_x_positions()))
