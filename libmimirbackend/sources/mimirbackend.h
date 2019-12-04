@@ -23,7 +23,6 @@ class trajectorymodel {
 		std::vector<double> z_accelerations;
 
 	public:
-		
 		~trajectorymodel();
 		void identify(); // Prints out object type. Used for setup testing.
 		int fill_data(int);

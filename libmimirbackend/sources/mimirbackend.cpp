@@ -21,7 +21,6 @@ void trajectorymodel::identify() {
 
 
 int trajectorymodel::fill_data(int size) {
-	
 	for (int i = 0; i < size; i++) {
 		times.push_back(i / double(10));
 		x_positions.push_back(i / double(3));
