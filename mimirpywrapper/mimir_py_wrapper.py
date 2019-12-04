@@ -173,11 +173,3 @@ if __name__ == "__main__":
     print("\nTimes and x, y, z accelerations")
     for i in range(0, testobject.len_x_accelerations()):
         print("{:.3f}, {:.3f}, {:.3f}, {:.3f}".format(testobject.get_halftimes(i), testobject.get_x_accelerations(i), testobject.get_y_accelerations(i), testobject.get_z_accelerations(i)))
-
-        
-
-
-
-
-     
-
