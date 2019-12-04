@@ -1,4 +1,3 @@
-
 LIBFLAGS = -shared
 
 ifeq ($(OS), Windows_NT)
