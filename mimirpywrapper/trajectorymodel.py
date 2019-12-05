@@ -64,11 +64,30 @@ lib.len_z_accelerations.restype = c_int
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
+class x_positions():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
+
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_x_positions(self.parent_ptr, i)
+
+    def __len__(self):
+        return lib.len_x_positions(self.parent_ptr)
+
+    def __getitem__(self, index):
+        return lib.get_x_positions(self.parent_ptr, index)
+
+
 class trajectorymodel():
     def __init__(self):
         self.ptr = lib.create_trajectorymodel()
 
+        self.x_positions = x_positions(self.ptr)
+
     def get_times(self, index):
+        if (index >= self.len_times()):
+            return -1
         return lib.get_times(self.ptr, index)
 
     def len_times(self):
@@ -77,18 +96,24 @@ class trajectorymodel():
 
     # POSITIONS INTERACTIONS
     def get_x_positions(self, index):
+        if (index >= self.len_x_positions()):
+            return -1
         return lib.get_x_positions(self.ptr, index)
 
     def len_x_positions(self):
         return lib.len_x_positions(self.ptr)
 
     def get_y_positions(self, index):
+        if (index >= self.len_y_positions()):
+            return -1
         return lib.get_y_positions(self.ptr, index)
 
     def len_y_positions(self):
         return lib.len_y_positions(self.ptr)
 
     def get_z_positions(self, index):
+        if (index >= self.len_z_positions()):
+            return -1
         return lib.get_z_positions(self.ptr, index)
 
     def len_z_positions(self):
@@ -97,18 +122,24 @@ class trajectorymodel():
     
     # VELOCITY INTERACTIONS
     def get_x_velocities(self, index):
+        if (index >= self.len_x_velocities()):
+            return -1
         return lib.get_x_velocities(self.ptr, index)
 
     def len_x_velocities(self):
         return lib.len_x_velocities(self.ptr)
 
     def get_y_velocities(self, index):
+        if (index >= self.len_y_velocities()):
+            return -1
         return lib.get_y_velocities(self.ptr, index)
 
     def len_y_velocities(self):
         return lib.len_y_velocities(self.ptr)
 
     def get_z_velocities(self, index):
+        if (index >= self.len_z_velocities()):
+            return -1
         return lib.get_z_velocities(self.ptr, index)
 
     def len_z_velocities(self):
@@ -117,6 +148,8 @@ class trajectorymodel():
 
     # HALFTIMES
     def get_halftimes(self, index):
+        if (index >= self.len_halftimes()):
+            return -1
         return lib.get_halftimes(self.ptr, index)
 
     def len_halftimes(self, index):
@@ -125,18 +158,24 @@ class trajectorymodel():
 
     # ACCELERATION INTERACTIONS
     def get_x_accelerations(self, index):
+        if (index >= self.len_x_accelerations()):
+            return -1
         return lib.get_x_accelerations(self.ptr, index)
 
     def len_x_accelerations(self):
         return lib.len_x_accelerations(self.ptr)
 
     def get_y_accelerations(self, index):
+        if (index >= self.len_y_accelerations()):
+            return -1
         return lib.get_y_accelerations(self.ptr, index)
 
     def len_y_accelerations(self):
         return lib.len_y_accelerations(self.ptr)
 
     def get_z_accelerations(self, index):
+        if (index >= self.len_z_accelerations()):
+            return -1
         return lib.get_z_accelerations(self.ptr, index)
 
     def len_z_accelerations(self):
