@@ -64,6 +64,47 @@ lib.len_z_accelerations.restype = c_int
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
+
+class trajectorymodel():
+    def __init__(self):
+        self.ptr = lib.create_trajectorymodel()
+
+        self.times = times(self.ptr)
+        self.x_positions = x_positions(self.ptr)
+        self.y_positions = y_positions(self.ptr)
+        self.z_positions = z_positions(self.ptr)
+        self.x_velocities = x_velocities(self.ptr)
+        self.y_velocities = y_velocities(self.ptr)
+        self.z_velocities = z_velocities(self.ptr)
+
+        self.halftimes = halftimes(self.ptr)
+        self.x_accelerations = x_accelerations(self.ptr)
+        self.y_accelerations = y_accelerations(self.ptr)
+        self.z_accelerations = z_accelerations(self.ptr)
+
+
+    def fill_data(self, size):
+        lib.trajectorymodel_fill_data(self.ptr, c_int(size))
+
+
+    def __del__(self):
+        print("trajectorymodel object being deleted")
+        lib.delete_trajectorymodel()
+
+class times():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
+
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_times(self.parent_ptr, i)
+
+    def __len__(self):
+        return lib.len_times(self.parent_ptr)
+
+    def __getitem__(self, index):
+        return lib.get_times(self.parent_ptr, index)
+
 class x_positions():
     def __init__(self, ptr):
         self.parent_ptr = ptr
@@ -78,119 +119,137 @@ class x_positions():
     def __getitem__(self, index):
         return lib.get_x_positions(self.parent_ptr, index)
 
+class y_positions():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
-class trajectorymodel():
-    def __init__(self):
-        self.ptr = lib.create_trajectorymodel()
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_y_positions(self.parent_ptr, i)
 
-        self.x_positions = x_positions(self.ptr)
+    def __len__(self):
+        return lib.len_y_positions(self.parent_ptr)
 
-    def get_times(self, index):
-        if (index >= self.len_times()):
-            return -1
-        return lib.get_times(self.ptr, index)
+    def __getitem__(self, index):
+        return lib.get_y_positions(self.parent_ptr, index)
 
-    def len_times(self):
-        return lib.len_times(self.ptr)
+class z_positions():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_z_positions(self.parent_ptr, i)
 
-    # POSITIONS INTERACTIONS
-    def get_x_positions(self, index):
-        if (index >= self.len_x_positions()):
-            return -1
-        return lib.get_x_positions(self.ptr, index)
+    def __len__(self):
+        return lib.len_z_positions(self.parent_ptr)
 
-    def len_x_positions(self):
-        return lib.len_x_positions(self.ptr)
+    def __getitem__(self, index):
+        return lib.get_z_positions(self.parent_ptr, index)
 
-    def get_y_positions(self, index):
-        if (index >= self.len_y_positions()):
-            return -1
-        return lib.get_y_positions(self.ptr, index)
+class x_velocities():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
-    def len_y_positions(self):
-        return lib.len_y_positions(self.ptr)
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_x_velocities(self.parent_ptr, i)
 
-    def get_z_positions(self, index):
-        if (index >= self.len_z_positions()):
-            return -1
-        return lib.get_z_positions(self.ptr, index)
+    def __len__(self):
+        return lib.len_x_velocities(self.parent_ptr)
 
-    def len_z_positions(self):
-        return lib.len_z_positions(self.ptr)
+    def __getitem__(self, index):
+        return lib.get_x_velocities(self.parent_ptr, index)
 
+class y_velocities():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
+
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_y_velocities(self.parent_ptr, i)
+
+    def __len__(self):
+        return lib.len_y_velocities(self.parent_ptr)
+
+    def __getitem__(self, index):
+        return lib.get_y_velocities(self.parent_ptr, index)
+
+class z_velocities():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
+
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_z_velocities(self.parent_ptr, i)
+
+    def __len__(self):
+        return lib.len_z_velocities(self.parent_ptr)
+
+    def __getitem__(self, index):
+        return lib.get_z_velocities(self.parent_ptr, index)
     
-    # VELOCITY INTERACTIONS
-    def get_x_velocities(self, index):
-        if (index >= self.len_x_velocities()):
-            return -1
-        return lib.get_x_velocities(self.ptr, index)
 
-    def len_x_velocities(self):
-        return lib.len_x_velocities(self.ptr)
+class halftimes():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
-    def get_y_velocities(self, index):
-        if (index >= self.len_y_velocities()):
-            return -1
-        return lib.get_y_velocities(self.ptr, index)
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_halftimes(self.parent_ptr, i)
 
-    def len_y_velocities(self):
-        return lib.len_y_velocities(self.ptr)
+    def __len__(self):
+        return lib.len_halftimes(self.parent_ptr)
 
-    def get_z_velocities(self, index):
-        if (index >= self.len_z_velocities()):
-            return -1
-        return lib.get_z_velocities(self.ptr, index)
+    def __getitem__(self, index):
+        return lib.get_halftimes(self.parent_ptr, index)
 
-    def len_z_velocities(self):
-        return lib.len_z_velocities(self.ptr)
+class x_accelerations():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_x_accelerations(self.parent_ptr, i)
 
-    # HALFTIMES
-    def get_halftimes(self, index):
-        if (index >= self.len_halftimes()):
-            return -1
-        return lib.get_halftimes(self.ptr, index)
+    def __len__(self):
+        return lib.len_x_accelerations(self.parent_ptr)
 
-    def len_halftimes(self, index):
-        return lib.len_halftimes(self.ptr)
+    def __getitem__(self, index):
+        return lib.get_x_accelerations(self.parent_ptr, index)
 
+class y_accelerations():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
-    # ACCELERATION INTERACTIONS
-    def get_x_accelerations(self, index):
-        if (index >= self.len_x_accelerations()):
-            return -1
-        return lib.get_x_accelerations(self.ptr, index)
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_y_accelerations(self.parent_ptr, i)
 
-    def len_x_accelerations(self):
-        return lib.len_x_accelerations(self.ptr)
+    def __len__(self):
+        return lib.len_y_accelerations(self.parent_ptr)
 
-    def get_y_accelerations(self, index):
-        if (index >= self.len_y_accelerations()):
-            return -1
-        return lib.get_y_accelerations(self.ptr, index)
+    def __getitem__(self, index):
+        return lib.get_y_accelerations(self.parent_ptr, index)
 
-    def len_y_accelerations(self):
-        return lib.len_y_accelerations(self.ptr)
+class z_accelerations():
+    def __init__(self, ptr):
+        self.parent_ptr = ptr
 
-    def get_z_accelerations(self, index):
-        if (index >= self.len_z_accelerations()):
-            return -1
-        return lib.get_z_accelerations(self.ptr, index)
+    def __iter__(self):
+        for i in range(0, self.__len__()):
+            yield lib.get_z_accelerations(self.parent_ptr, i)
 
-    def len_z_accelerations(self):
-        return lib.len_z_accelerations(self.ptr)
+    def __len__(self):
+        return lib.len_z_accelerations(self.parent_ptr)
+
+    def __getitem__(self, index):
+        return lib.get_z_accelerations(self.parent_ptr, index)
 
 
 
 
-    def fill_data(self, size):
-        lib.trajectorymodel_fill_data(self.ptr, c_int(size))
 
-
-    def __del__(self):
-        print("trajectorymodel object being deleted")
-        lib.delete_trajectorymodel()
 
 
 if __name__ == "__main__":
