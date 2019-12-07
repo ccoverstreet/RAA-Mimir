@@ -18,12 +18,10 @@ void trajectorymodel::identify() {
 	printf("This object is a trajectorymodel object\n");
 }
 
-
-
 int trajectorymodel::fill_data(int size) {
 	for (int i = 0; i < size; i++) {
 		times.push_back(i / double(10));
-		x_positions.push_back(i / double(3));
+		x_positions.push_back(double(i * i));
 		y_positions.push_back(2 * i / double(3));
 		z_positions.push_back(4 * i / double(3));
 
