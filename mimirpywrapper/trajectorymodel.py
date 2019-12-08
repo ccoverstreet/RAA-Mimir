@@ -120,33 +120,34 @@ class trajectorymodel():
 
     def set_stage_impulses(self, impulses_list):
         self.impulses_list = impulses_list
-        for i in range(0, len(impulses_list)):
-            lib.pushback_stage_impulses(self.ptr, c_double(impulses_list[i]))
+        for i, value in enumerate(impulses_list):
+            lib.pushback_stage_impulses(self.ptr, c_double(value))
 
     def set_stage_burn_times(self, burn_times_list):
         self.burn_times_list = burn_times_list
-        for i in range(0, len(burn_times_list)):
-            lib.pushback_stage_burn_times(self.ptr, c_double(burn_times_list[i]))
+        for i, value in enumerate(burn_times_list):
+            lib.pushback_stage_burn_times(self.ptr, c_double(value))
 
     def set_stage_delay_times(self, delay_times_list):
         self.delay_times_list = delay_times_list
-        for i in range(0, len(delay_times_list)):
-            lib.pushback_stage_delay_times(self.ptr, c_double(delay_times_list[i]))
+        for i, value in enumerate(delay_times_list):
+            lib.pushback_stage_delay_times(self.ptr, c_double(value))
 
     def set_stage_total_masses(self, total_masses_list):
         self.total_masses_list = total_masses_list
-        for i in range(0, len(total_masses_list)):
-            lib.pushback_stage_total_masses(self.ptr, c_double(total_masses_list[i]))
+        for i, value in enumerate(total_masses_list):
+            lib.pushback_stage_total_masses(self.ptr, c_double(value))
 
     def set_stage_dry_masses(self, dry_masses_list):
         self.dry_masses_list = dry_masses_list
-        for i in range(0, len(dry_masses_list)):
-            lib.pushback_stage_dry_masses(self.ptr, c_double(dry_masses_list[i]))
+        for i, value in enumerate(dry_masses_list):
+            lib.pushback_stage_dry_masses(self.ptr, c_double(value))
 
     def set_stage_mass_rate_changes(self, mass_rate_changes_list):
         self.mass_rate_changes_list = mass_rate_changes_list
-        for i in range(0, len(mass_rate_changes_list)):
-            lib.pushback_stage_mass_rate_changes(self.ptr, c_double(mass_rate_changes_list[i]))
+        for i, value in enumerate(mass_rate_changes_list):
+            print(value)
+            lib.pushback_stage_mass_rate_changes(self.ptr, c_double(value))
 
     def clear_stage_impulses(self):
         lib.clear_stage_impulses(self.ptr)
@@ -341,4 +342,3 @@ if __name__ == "__main__":
     x.set_stage_impulses([1.2, 3.4, 5.6])
     x.clear_stage_impulses()
     x.set_stage_burn_times([1, 2, 3.3, 4])
-
