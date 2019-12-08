@@ -33,7 +33,21 @@ def main():
     plt.ylabel("X-Position (m)")
     plt.title("Example model output using fill_data member function")
     plt.show()
-    
+
+
+    x.set_stage_impulses([1, 2.3, 4, 5])
+    x.set_stage_burn_times([1, 2.3, 4, 5])
+    x.set_stage_delay_times([1, 2.3, 4, 5])
+    x.set_stage_total_masses([1, 2.3, 4, 5])
+    x.set_stage_dry_masses([1, 2.3, 4, 5])
+    x.set_stage_mass_rate_changes([1, 2.3, 4, 5])
+
+    x.clear_stage_impulses()
+    x.clear_stage_burn_times()
+    x.clear_stage_delay_times()
+    x.clear_stage_total_masses()
+    x.clear_stage_dry_masses()
+    x.clear_stage_mass_rate_changes()
 
 
 if __name__ == "__main__":

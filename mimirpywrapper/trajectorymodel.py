@@ -61,6 +61,42 @@ lib.get_z_accelerations.restype = c_double
 lib.len_z_accelerations.argtypes = [c_void_p]
 lib.len_z_accelerations.restype = c_int
 
+lib.pushback_stage_impulses.argtypes = [c_void_p, c_double]
+lib.pushback_stage_impulses.restype = c_int
+
+lib.pushback_stage_burn_times.argtypes = [c_void_p, c_double]
+lib.pushback_stage_burn_times.restype = c_int
+
+lib.pushback_stage_delay_times.argtypes = [c_void_p, c_double]
+lib.pushback_stage_delay_times.restype = c_int
+
+lib.pushback_stage_total_masses.argtypes = [c_void_p, c_double]
+lib.pushback_stage_total_masses.restype = c_int
+
+lib.pushback_stage_dry_masses.argtypes = [c_void_p, c_double]
+lib.pushback_stage_dry_masses.restype = c_int
+
+lib.pushback_stage_mass_rate_changes.argtypes = [c_void_p, c_double]
+lib.pushback_stage_mass_rate_changes.restype = c_int
+
+lib.clear_stage_impulses.argtypes = [c_void_p]
+lib.clear_stage_impulses.restype = c_int
+
+lib.clear_stage_burn_times.argtypes = [c_void_p]
+lib.clear_stage_burn_times.restype = c_int
+
+lib.clear_stage_delay_times.argtypes = [c_void_p]
+lib.clear_stage_delay_times.restype = c_int
+
+lib.clear_stage_total_masses.argtypes = [c_void_p]
+lib.clear_stage_total_masses.restype = c_int
+
+lib.clear_stage_dry_masses.argtypes = [c_void_p]
+lib.clear_stage_dry_masses.restype = c_int
+
+lib.clear_stage_mass_rate_changes.argtypes = [c_void_p]
+lib.clear_stage_mass_rate_changes.restype = c_int
+
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
@@ -82,6 +118,53 @@ class trajectorymodel():
         self.y_accelerations = y_accelerations(self.ptr)
         self.z_accelerations = z_accelerations(self.ptr)
 
+    def set_stage_impulses(self, impulses_list):
+        self.impulses_list = impulses_list
+        for i in range(0, len(impulses_list)):
+            lib.pushback_stage_impulses(self.ptr, c_double(impulses_list[i]))
+
+    def set_stage_burn_times(self, burn_times_list):
+        self.burn_times_list = burn_times_list
+        for i in range(0, len(burn_times_list)):
+            lib.pushback_stage_burn_times(self.ptr, c_double(burn_times_list[i]))
+
+    def set_stage_delay_times(self, delay_times_list):
+        self.delay_times_list = delay_times_list
+        for i in range(0, len(delay_times_list)):
+            lib.pushback_stage_delay_times(self.ptr, c_double(delay_times_list[i]))
+
+    def set_stage_total_masses(self, total_masses_list):
+        self.total_masses_list = total_masses_list
+        for i in range(0, len(total_masses_list)):
+            lib.pushback_stage_total_masses(self.ptr, c_double(total_masses_list[i]))
+
+    def set_stage_dry_masses(self, dry_masses_list):
+        self.dry_masses_list = dry_masses_list
+        for i in range(0, len(dry_masses_list)):
+            lib.pushback_stage_dry_masses(self.ptr, c_double(dry_masses_list[i]))
+
+    def set_stage_mass_rate_changes(self, mass_rate_changes_list):
+        self.mass_rate_changes_list = mass_rate_changes_list
+        for i in range(0, len(mass_rate_changes_list)):
+            lib.pushback_stage_mass_rate_changes(self.ptr, c_double(mass_rate_changes_list[i]))
+
+    def clear_stage_impulses(self):
+        lib.clear_stage_impulses(self.ptr)
+
+    def clear_stage_burn_times(self):
+        lib.clear_stage_burn_times(self.ptr)
+
+    def clear_stage_delay_times(self):
+        lib.clear_stage_delay_times(self.ptr)
+
+    def clear_stage_total_masses(self):
+        lib.clear_stage_total_masses(self.ptr)
+
+    def clear_stage_dry_masses(self):
+        lib.clear_stage_dry_masses(self.ptr)
+
+    def clear_stage_mass_rate_changes(self):
+        lib.clear_stage_mass_rate_changes(self.ptr)
 
     def fill_data(self, size):
         lib.trajectorymodel_fill_data(self.ptr, c_int(size))
@@ -250,24 +333,12 @@ class z_accelerations():
 
 
 
-
-
 if __name__ == "__main__":
     print("Mimir Python Wrapper Test")
 
-    testobject = trajectorymodel()
+    x = trajectorymodel()
 
-    print(testobject.len_x_positions())
-    testobject.fill_data(10)
+    x.set_stage_impulses([1.2, 3.4, 5.6])
+    x.clear_stage_impulses()
+    x.set_stage_burn_times([1, 2, 3.3, 4])
 
-    print("Times and x, y, z positions")
-    for i in range(0, testobject.len_x_positions()):
-        print("{:.3f}, {:.3f}, {:.3f}, {:.3f}".format(testobject.get_times(i), testobject.get_x_positions(i), testobject.get_y_positions(i), testobject.get_z_positions(i)))
-
-    print("\nTimes and x, y, z velocities")
-    for i in range(0, testobject.len_x_velocities()):
-        print("{:.3f}, {:.3f}, {:.3f}, {:.3f}".format(testobject.get_times(i), testobject.get_x_velocities(i), testobject.get_y_velocities(i), testobject.get_z_velocities(i)))
-
-    print("\nTimes and x, y, z accelerations")
-    for i in range(0, testobject.len_x_accelerations()):
-        print("{:.3f}, {:.3f}, {:.3f}, {:.3f}".format(testobject.get_halftimes(i), testobject.get_x_accelerations(i), testobject.get_y_accelerations(i), testobject.get_z_accelerations(i)))

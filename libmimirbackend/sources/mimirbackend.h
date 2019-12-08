@@ -22,11 +22,18 @@ class trajectorymodel {
 		std::vector<double> y_accelerations;
 		std::vector<double> z_accelerations;
 
+		std::vector<double> stage_impulses;
+		std::vector<double> stage_burn_times;
+		std::vector<double> stage_delay_times;
+		std::vector<double> stage_total_masses;
+		std::vector<double> stage_dry_masses;
+		std::vector<double> stage_mass_rate_changes;
+
+
 	public:
 		~trajectorymodel();
 		void identify(); // Prints out object type. Used for setup testing.
 		int fill_data(int);
-		double index_data(int);
 
 		// Get declarations
 		double get_times(int);
@@ -52,6 +59,21 @@ class trajectorymodel {
 		int len_x_accelerations();
 		int len_y_accelerations();
 		int len_z_accelerations();
+
+
+		int pushback_stage_impulses(double); // Returns 0 for no error
+		int pushback_stage_burn_times(double); // Returns 0 for no error
+		int pushback_stage_delay_times(double); // Returns 0 for no error
+		int pushback_stage_total_masses(double); // Returns 0 for no error
+		int pushback_stage_dry_masses(double); // Returns 0 for no error
+		int pushback_stage_mass_rate_changes(double); // Returns 0 for no error
+
+		int clear_stage_impulses(); // Return 0 for no error
+		int clear_stage_burn_times(); // Return 0 for no error
+		int clear_stage_delay_times(); // Return 0 for no error
+		int clear_stage_total_masses(); // Return 0 for no error
+		int clear_stage_dry_masses(); // Return 0 for no error
+		int clear_stage_mass_rate_changes(); // Return 0 for no error
 };
 
 // START OF C INTERFACE DECLARATIONS
@@ -142,7 +164,46 @@ extern "C" {
 	int len_z_accelerations(trajectorymodel* ptr) { // Returns length of z_accelerations vector
 		return reinterpret_cast<trajectorymodel*>(ptr)->len_z_accelerations();
 	}
+
+
+	int pushback_stage_impulses(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_impulses(entry);
+	}
+	int pushback_stage_burn_times(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_burn_times(entry);
+	}
+	int pushback_stage_delay_times(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_delay_times(entry);
+	}
+	int pushback_stage_total_masses(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_total_masses(entry);
+	}
+	int pushback_stage_dry_masses(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_dry_masses(entry);
+	}
+	int pushback_stage_mass_rate_changes(trajectorymodel*ptr, double entry) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_mass_rate_changes(entry);
+	}
 	
+	
+	int clear_stage_impulses(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_impulses();
+	}
+	int clear_stage_burn_times(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_burn_times();
+	}
+	int clear_stage_delay_times(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_delay_times();
+	}
+	int clear_stage_total_masses(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_total_masses();
+	}
+	int clear_stage_dry_masses(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_dry_masses();
+	}
+	int clear_stage_mass_rate_changes(trajectorymodel*ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_mass_rate_changes();
+	}
 
 	int trajectorymodel_fill_data(trajectorymodel* ptr, int size) {
 		return reinterpret_cast<trajectorymodel*>(ptr)->fill_data(size);

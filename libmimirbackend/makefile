@@ -8,5 +8,5 @@ endif
 libmimirbackend.so: objects/mimirbackend.o
 	g++ $(LIBFLAGS) -o libmimirbackend.so objects/mimirbackend.o
 
-objects/mimirbackend.o: sources/mimirbackend.cpp sources/mimirbackend.h
-	g++ -fPIC -o objects/mimirbackend.o -c sources/mimirbackend.cpp
+objects/mimirinterface.o: sources/mimirinterface.cpp sources/mimirbackend.h
+	g++ -fPIC -o objects/mimirinterface.o -c sources/mimirinterface.cpp

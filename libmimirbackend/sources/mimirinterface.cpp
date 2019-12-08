@@ -14,10 +14,6 @@ trajectorymodel::~trajectorymodel() {
 	//delete arraydata;
 }
 
-void trajectorymodel::identify() {
-	printf("This object is a trajectorymodel object\n");
-}
-
 int trajectorymodel::fill_data(int size) {
 	for (int i = 0; i < size; i++) {
 		times.push_back(i / double(10));
@@ -25,15 +21,14 @@ int trajectorymodel::fill_data(int size) {
 		y_positions.push_back(2 * i / double(3));
 		z_positions.push_back(4 * i / double(3));
 
-
-		x_velocities.push_back(3*i / double(3));
+		x_velocities.push_back(3 * i / double(3));
 		y_velocities.push_back(5 * i / double(3));
 		z_velocities.push_back(7 * i / double(3));
 	}
 
 	for (int i = 0; i < size - 1; i++) {
 		halftimes.push_back(i / double(10) + 0.05);
-		x_accelerations.push_back(3*i / double(3));
+		x_accelerations.push_back(3 * i / double(3));
 		y_accelerations.push_back(5 * i / double(3));
 		z_accelerations.push_back(7 * i / double(3));
 	}
@@ -120,4 +115,54 @@ int trajectorymodel::len_z_accelerations(){
 	return z_accelerations.size();
 }
 
+// Parameter passing for stage holders
+int trajectorymodel::pushback_stage_impulses(double entry) {
+	stage_impulses.push_back(entry);
+	return 0;
+}
+int trajectorymodel::pushback_stage_burn_times(double entry) {
+	stage_burn_times.push_back(entry);
+	return 0;
+}
+int trajectorymodel::pushback_stage_delay_times(double entry) {
+	stage_delay_times.push_back(entry);
+	return 0;
+}
+int trajectorymodel::pushback_stage_total_masses(double entry) {
+	stage_total_masses.push_back(entry);
+	return 0;
+}
+int trajectorymodel::pushback_stage_dry_masses(double entry) {
+	stage_dry_masses.push_back(entry);
+	return 0;
+}
+int trajectorymodel::pushback_stage_mass_rate_changes(double entry) {
+	stage_mass_rate_changes.push_back(entry);
+	return 0;
+}
+
+int trajectorymodel::clear_stage_impulses() {
+	stage_impulses.clear();
+	return 0;
+}
+int trajectorymodel::clear_stage_burn_times() {
+	stage_burn_times.clear();
+	return 0;
+}
+int trajectorymodel::clear_stage_delay_times() {
+	stage_delay_times.clear();
+	return 0;
+}
+int trajectorymodel::clear_stage_total_masses() {
+	stage_total_masses.clear();
+	return 0;
+}
+int trajectorymodel::clear_stage_dry_masses() {
+	stage_dry_masses.clear();
+	return 0;
+}
+int trajectorymodel::clear_stage_mass_rate_changes() {
+	stage_mass_rate_changes.clear();
+	return 0;
+}
 
