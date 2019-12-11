@@ -5,8 +5,8 @@ ifeq ($(OS), Windows_NT)
 endif
 
 
-libmimirbackend.so: objects/mimirbackend.o
-	g++ $(LIBFLAGS) -o libmimirbackend.so objects/mimirbackend.o
+libmimirbackend.so: objects/mimirinterface.o
+	g++ $(LIBFLAGS) -o libmimirbackend.so objects/mimirinterface.o
 
 objects/mimirinterface.o: sources/mimirinterface.cpp sources/mimirbackend.h
 	g++ -fPIC -o objects/mimirinterface.o -c sources/mimirinterface.cpp
