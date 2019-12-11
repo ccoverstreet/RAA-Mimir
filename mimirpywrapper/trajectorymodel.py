@@ -1,7 +1,10 @@
 from ctypes import *
 import os
 
-lib = cdll.LoadLibrary(os.path.abspath("libmimirbackend/libmimirbackend.so"))
+
+mimir_dir = os.path.abspath(__file__).replace("/mimirpywrapper/trajectorymodel.py", "")
+
+lib = cdll.LoadLibrary(os.path.abspath(mimir_dir + "/libmimirbackend/libmimirbackend.so"))
 
 # create_trajectorymodel type definitions
 lib.create_trajectorymodel.restype = c_void_p
