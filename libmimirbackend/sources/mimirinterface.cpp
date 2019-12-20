@@ -166,3 +166,46 @@ int trajectorymodel::clear_stage_mass_rate_changes() {
 	return 0;
 }
 
+// Setting conditions
+int trajectorymodel::set_timestep_size(double timestep_size_input) {
+	timestep_size = timestep_size_input;
+	return 0;
+}
+int trajectorymodel::set_horizontal_direction(double horizontal_direction_input) {
+	horizontal_direction = horizontal_direction_input;
+	return 0;
+}
+int trajectorymodel::set_vertical_direction(double vertical_direction_input) {
+	vertical_direction = vertical_direction_input;
+	return 0;
+}
+int trajectorymodel::set_starting_altitude(double starting_altitude_input) {
+	starting_altitude = starting_altitude_input;
+	return 0;
+}
+int trajectorymodel::set_launch_rail_length(double launch_rail_length_input) {
+	launch_rail_length = launch_rail_length_input;
+	return 0;
+}
+int trajectorymodel::set_initial_mass(double initial_mass_input) {
+	initial_mass = initial_mass_input;
+	return 0;
+}
+
+int trajectorymodel::set_rocket_diameter(double rocket_diameter_input) {
+	rocket_diameter = rocket_diameter_input;
+	return 0;
+}
+int trajectorymodel::set_rocket_cd(double rocket_cd_input) {
+	rocket_cd = rocket_cd_input;
+	return 0;
+}
+int trajectorymodel::set_parachute_diameter(double parachute_diameter_input) {
+	parachute_diameter = parachute_diameter_input;
+	return 0;
+}
+int trajectorymodel::set_parachute_cd(double parachute_cd_input) {
+	parachute_cd = parachute_cd_input;
+	return 0;
+}
+
