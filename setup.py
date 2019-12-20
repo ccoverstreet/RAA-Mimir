@@ -12,7 +12,7 @@ setup(
     executables = [Executable("driver.py")],
     options = {"build_exe": {
         "includes": [],
-        "include_files": ["libmimirbackend/libmimirbackend.so"],
+        "include_files": [("libmimirbackend/libmimirbackend.so", "libc/libmimirbackend/libmimirbackend.so")],
         "packages": ["mimirpywrapper", "tkinter", "tkinter.filedialog", "matplotlib"]
     }}
 )
