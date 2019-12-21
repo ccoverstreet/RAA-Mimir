@@ -79,9 +79,6 @@ lib.pushback_stage_total_masses.restype = c_int
 lib.pushback_stage_dry_masses.argtypes = [c_void_p, c_double]
 lib.pushback_stage_dry_masses.restype = c_int
 
-lib.pushback_stage_mass_rate_changes.argtypes = [c_void_p, c_double]
-lib.pushback_stage_mass_rate_changes.restype = c_int
-
 lib.clear_stage_impulses.argtypes = [c_void_p]
 lib.clear_stage_impulses.restype = c_int
 
@@ -130,6 +127,9 @@ lib.set_parachute_diameter.restype = c_int
 lib.set_parachute_cd.argtypes = [c_void_p, c_double]
 lib.set_parachute_cd.restype = c_int
 
+lib.calculate_trajectory.argtypes = [c_void_p]
+lib.calculate_trajectory.restype = c_int
+
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
@@ -150,6 +150,9 @@ class trajectorymodel():
         self.x_accelerations = x_accelerations(self.ptr)
         self.y_accelerations = y_accelerations(self.ptr)
         self.z_accelerations = z_accelerations(self.ptr)
+
+    def calculate_trajectory(self):
+        lib.calculate_trajectory(self.ptr)
 
     def set_stage_impulses(self, impulses_list):
         self.impulses_list = impulses_list
@@ -175,12 +178,6 @@ class trajectorymodel():
         self.dry_masses_list = dry_masses_list
         for i, value in enumerate(dry_masses_list):
             lib.pushback_stage_dry_masses(self.ptr, c_double(value))
-
-    def set_stage_mass_rate_changes(self, mass_rate_changes_list):
-        self.mass_rate_changes_list = mass_rate_changes_list
-        for i, value in enumerate(mass_rate_changes_list):
-            print(value)
-            lib.pushback_stage_mass_rate_changes(self.ptr, c_double(value))
 
     def clear_stage_impulses(self):
         lib.clear_stage_impulses(self.ptr)
