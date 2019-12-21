@@ -28,12 +28,32 @@ class trajectorymodel {
 		std::vector<double> stage_total_masses;
 		std::vector<double> stage_dry_masses;
 		std::vector<double> stage_mass_rate_changes;
+		std::vector<double> stage_average_forces;
+
+		std::vector<std::vector<double>> stage_firing_and_glide_times;
+
+		//Initial Conditions
+		double timestep_size = 0;
+		double horizontal_direction = 0;
+		double vertical_direction = 0;
+		double starting_altitude = 0;
+		double launch_rail_length = 0;
+		double initial_mass = 0;
+
+		//Rocket Characteristics
+		double rocket_diameter = 0;
+		double rocket_cd = 0;
+		double parachute_diameter = 0;
+		double parachute_cd = 0;
 
 
 	public:
 		~trajectorymodel();
 		void identify(); // Prints out object type. Used for setup testing.
 		int fill_data(int);
+
+		int prepare_model();
+		int calculate_trajectory(); // Main trajectory calculating function
 
 		// Get declarations
 		double get_times(int);
@@ -74,6 +94,18 @@ class trajectorymodel {
 		int clear_stage_total_masses(); // Return 0 for no error
 		int clear_stage_dry_masses(); // Return 0 for no error
 		int clear_stage_mass_rate_changes(); // Return 0 for no error
+
+		int set_timestep_size(double); // Return 0 for no error
+		int set_horizontal_direction(double); // Return 0 for no error
+		int set_vertical_direction(double); // Return 0 for no error
+		int set_starting_altitude(double); // Return 0 for no error
+		int set_launch_rail_length(double); // Return 0 for no error
+		int set_initial_mass(double); // Return 0 for no error
+
+		int set_rocket_diameter(double); // Return 0 for no error
+		int set_rocket_cd(double); // Return 0 for no error
+		int set_parachute_diameter(double); // Return 0 for no error
+		int set_parachute_cd(double); // return 0 for no error
 };
 
 // START OF C INTERFACE DECLARATIONS
@@ -84,6 +116,10 @@ extern "C" {
 	}
 
 	void delete_trajectorymodel(trajectorymodel* ptr) {
+	}
+
+	int calculate_trajectory(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->calculate_trajectory();
 	}
 
 	// Getters for each holder vector
@@ -185,7 +221,6 @@ extern "C" {
 		return reinterpret_cast<trajectorymodel*>(ptr)->pushback_stage_mass_rate_changes(entry);
 	}
 	
-	
 	int clear_stage_impulses(trajectorymodel*ptr) {
 		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_impulses();
 	}
@@ -205,6 +240,38 @@ extern "C" {
 		return reinterpret_cast<trajectorymodel*>(ptr)->clear_stage_mass_rate_changes();
 	}
 
+	int set_timestep_size(trajectorymodel* ptr, double timestep_size) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_timestep_size(timestep_size);
+	}
+	int set_horizontal_direction(trajectorymodel* ptr, double horizontal_direction) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_horizontal_direction(horizontal_direction);
+	}
+	int set_vertical_direction(trajectorymodel* ptr, double vertical_direction) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_vertical_direction(vertical_direction);
+	}
+	int set_starting_altitude(trajectorymodel* ptr, double starting_altitude) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_starting_altitude(starting_altitude);
+	}
+	int set_launch_rail_length(trajectorymodel* ptr, double launch_rail_length) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_launch_rail_length(launch_rail_length);
+	}
+	int set_initial_mass(trajectorymodel* ptr, double initial_mass) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_initial_mass(initial_mass);
+	}
+
+	int set_rocket_diameter(trajectorymodel* ptr, double rocket_diameter) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_rocket_diameter(rocket_diameter);
+	}
+	int set_rocket_cd(trajectorymodel* ptr, double rocket_cd) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_rocket_cd(rocket_cd);
+	}
+	int set_parachute_diameter(trajectorymodel* ptr, double parachute_diameter) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_parachute_diameter(parachute_diameter);
+	}
+	int set_parachute_cd(trajectorymodel* ptr, double parachute_cd) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->set_parachute_cd(parachute_cd);
+	}
+	
 	int trajectorymodel_fill_data(trajectorymodel* ptr, int size) {
 		return reinterpret_cast<trajectorymodel*>(ptr)->fill_data(size);
 	}

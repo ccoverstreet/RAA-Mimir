@@ -79,9 +79,6 @@ lib.pushback_stage_total_masses.restype = c_int
 lib.pushback_stage_dry_masses.argtypes = [c_void_p, c_double]
 lib.pushback_stage_dry_masses.restype = c_int
 
-lib.pushback_stage_mass_rate_changes.argtypes = [c_void_p, c_double]
-lib.pushback_stage_mass_rate_changes.restype = c_int
-
 lib.clear_stage_impulses.argtypes = [c_void_p]
 lib.clear_stage_impulses.restype = c_int
 
@@ -99,6 +96,39 @@ lib.clear_stage_dry_masses.restype = c_int
 
 lib.clear_stage_mass_rate_changes.argtypes = [c_void_p]
 lib.clear_stage_mass_rate_changes.restype = c_int
+
+lib.set_timestep_size.argtypes = [c_void_p, c_double]
+lib.set_timestep_size.restype = c_int
+
+lib.set_horizontal_direction.argtypes = [c_void_p, c_double]
+lib.set_horizontal_direction.restype = c_int
+
+lib.set_vertical_direction.argtypes = [c_void_p, c_double]
+lib.set_vertical_direction.restype = c_int
+
+lib.set_starting_altitude.argtypes = [c_void_p, c_double]
+lib.set_starting_altitude.restype = c_int
+
+lib.set_launch_rail_length.argtypes = [c_void_p, c_double]
+lib.set_launch_rail_length.restype = c_int
+
+lib.set_initial_mass.argtypes = [c_void_p, c_double]
+lib.set_initial_mass.restype = c_int
+
+lib.set_rocket_diameter.argtypes = [c_void_p, c_double]
+lib.set_rocket_diameter.restype = c_int
+
+lib.set_rocket_cd.argtypes = [c_void_p, c_double]
+lib.set_rocket_cd.restype = c_int
+
+lib.set_parachute_diameter.argtypes = [c_void_p, c_double]
+lib.set_parachute_diameter.restype = c_int
+
+lib.set_parachute_cd.argtypes = [c_void_p, c_double]
+lib.set_parachute_cd.restype = c_int
+
+lib.calculate_trajectory.argtypes = [c_void_p]
+lib.calculate_trajectory.restype = c_int
 
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
@@ -120,6 +150,9 @@ class trajectorymodel():
         self.x_accelerations = x_accelerations(self.ptr)
         self.y_accelerations = y_accelerations(self.ptr)
         self.z_accelerations = z_accelerations(self.ptr)
+
+    def calculate_trajectory(self):
+        lib.calculate_trajectory(self.ptr)
 
     def set_stage_impulses(self, impulses_list):
         self.impulses_list = impulses_list
@@ -146,12 +179,6 @@ class trajectorymodel():
         for i, value in enumerate(dry_masses_list):
             lib.pushback_stage_dry_masses(self.ptr, c_double(value))
 
-    def set_stage_mass_rate_changes(self, mass_rate_changes_list):
-        self.mass_rate_changes_list = mass_rate_changes_list
-        for i, value in enumerate(mass_rate_changes_list):
-            print(value)
-            lib.pushback_stage_mass_rate_changes(self.ptr, c_double(value))
-
     def clear_stage_impulses(self):
         lib.clear_stage_impulses(self.ptr)
 
@@ -169,6 +196,36 @@ class trajectorymodel():
 
     def clear_stage_mass_rate_changes(self):
         lib.clear_stage_mass_rate_changes(self.ptr)
+
+    def set_timestep_size(self, timestep_size_input):
+        lib.set_timestep_size(self.ptr, c_double(timestep_size_input))
+
+    def set_horizontal_direction(self, horizontal_direction_input):
+        lib.set_horizontal_direction(self.ptr, c_double(horizontal_direction_input))
+
+    def set_vertical_direction(self, vertical_direction_input):
+        lib.set_vertical_direction(self.ptr, c_double(vertical_direction_input))
+
+    def set_starting_altitude(self, starting_altitude_input):
+        lib.set_starting_altitude(self.ptr, c_double(starting_altitude_input))
+
+    def set_launch_rail_length(self, launch_rail_length_input):
+        lib.set_launch_rail_length(self.ptr, c_double(launch_rail_length_input))
+
+    def set_initial_mass(self, initial_mass_input):
+        lib.set_initial_mass(self.ptr, c_double(initial_mass_input))
+
+    def set_rocket_diameter(self, rocket_diameter_input):
+        lib.set_rocket_diameter(self.ptr, c_double(rocket_diameter_input))
+
+    def set_rocket_cd(self, rocket_cd_input):
+        lib.set_rocket_cd(self.ptr, c_double(rocket_cd_input))
+
+    def set_parachute_diameter(self, parachute_diameter_input):
+        lib.set_parachute_diameter(self.ptr, c_double(parachute_diameter_input))
+
+    def set_parachute_cd(self, parachute_cd_input):
+        lib.set_parachute_cd(self.ptr, c_double(parachute_cd_input))
 
     def fill_data(self, size):
         lib.trajectorymodel_fill_data(self.ptr, c_int(size))

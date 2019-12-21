@@ -37,11 +37,14 @@ def main():
 
 
     x.set_stage_impulses([1, 2.3, 4, 5])
-    x.set_stage_burn_times([1, 2.3, 4, 5])
+    x.set_stage_burn_times([1, 2, 4, 5])
     x.set_stage_delay_times([1, 2.3, 4, 5])
     x.set_stage_total_masses([1, 2.3, 4, 5])
-    x.set_stage_dry_masses([1, 2.3, 4, 5])
-    x.set_stage_mass_rate_changes([1, 2.3, 4, 5])
+    x.set_stage_dry_masses([0, 1, 2, 2.5])
+
+    x.set_timestep_size(0.01)
+
+    x.calculate_trajectory()
 
     x.clear_stage_impulses()
     x.clear_stage_burn_times()

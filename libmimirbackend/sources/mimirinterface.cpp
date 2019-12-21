@@ -8,6 +8,7 @@
 #include <iostream>
 #include <new> // Used for creating object pointer
 #include <vector>
+#include <cmath>
 
 trajectorymodel::~trajectorymodel() {
 	// Delete arrays associated with data values
@@ -35,6 +36,108 @@ int trajectorymodel::fill_data(int size) {
 
 	return 0;
 }
+
+
+
+int trajectorymodel::prepare_model() {
+	// Filling stage_average_force and stage_mass_rate_change
+	for (int i = 0; i < stage_impulses.size(); i++) {
+		stage_average_forces.push_back(stage_impulses[i] / stage_burn_times[i]);
+
+		double temp_mass_rate_change = ((stage_total_masses[i] - stage_dry_masses[i]) / stage_burn_times[i]) * timestep_size;
+
+		stage_mass_rate_changes.push_back(temp_mass_rate_change);
+
+		printf("Stage %i Force: %f\n", i, stage_average_forces[i]);
+		printf("Stage %i MRC: %f\n", i, stage_mass_rate_changes[i]);
+	}
+
+	int m = int(stage_impulses.size()), n = 2;
+	stage_firing_and_glide_times.resize(m);
+	for(int i = 0 ; i < m ; ++i){
+		//Grow rows by n
+		stage_firing_and_glide_times[i].resize(n);
+	}
+
+	double temp_buffer_time = 0;
+	for (int i = 0; i < m; i++){
+		temp_buffer_time += stage_burn_times[i];
+		stage_firing_and_glide_times[i][0] = temp_buffer_time;
+		temp_buffer_time += stage_delay_times[i];
+		stage_firing_and_glide_times[i][1] = temp_buffer_time;
+	}
+
+
+	return 0;
+}
+
+int trajectorymodel::calculate_trajectory() {
+	// Main trajectory calculation component. Publicly accessible class member
+	prepare_model();
+
+	// Environment Variables
+	double g = 9.81; // m/s^2
+	double rho_air = 1.225; // kg/m^3
+	double Pi = 3.141592653589;
+
+	// Initial Conditions
+	times.push_back(0);
+	x_positions.push_back(0);
+	y_positions.push_back(0);
+	z_positions.push_back(0);
+
+	x_velocities.push_back(0);
+	y_velocities.push_back(0);
+	z_velocities.push_back(0);
+
+	// Current Variables (posiitons, velocities, etc)
+	double current_x_position = 0;
+	double current_y_position = 0;
+	double current_z_position = 0;
+
+	double current_x_velocity = 0;
+	double current_y_velocity = 0;
+	double current_z_velocity = 0;
+	double current_speed = 0;
+
+	double current_x_acceleration = 0;
+	double current_y_acceleration = 0;
+	double current_z_acceleration = 0;
+
+	double current_thrust = 0;
+
+	// Preparing drag constants
+	double rocket_drag_constant = 0.5 * rocket_cd * std::pow((0.5 * rocket_diameter), 2) * Pi;
+	double parachute_drag_constant = 0.5 * parachute_cd * std::pow((0.5 * parachute_diameter), 2) * Pi;
+	double rocket_drag = 0;
+	double parachute_drag = 0;
+	double pressure_0 = 101325; // (Pa), atmospheric pressure at sea altitude_above_sea_level
+	double temperature_0 = 288.15; // (K),sea level Temperature_0
+	double temperature_lapse_rate = 0.0065; // (K/m) decrease in temperature with minHeight
+	double ideal_gas_constant = 8.31447; // (J/mol-k) ideal gas constants
+	double molar_mass_air = 0.0289644; // (kg/mol) molar mass of atmospheric molar_mass_air
+	double temp_pressure = 0;
+	double temp_density = 0;	
+
+	// Setting direction of the rocket
+	double current_x_direction = std::cos(vertical_direction * Pi / 180) * std::cos(horizontal_direction * Pi / 180); // Calculating Direction from initial values
+	double current_y_direction = std::cos(vertical_direction * Pi / 180) * std::sin(horizontal_direction * Pi / 180);
+	double current_z_direction = std::sin(vertical_direction * Pi / 180);
+
+	double current_altitude = starting_altitude; // Setting starting altitude in m
+
+	double current_time = timestep_size;
+	double current_mass = initial_mass + 0.5 * stage_mass_rate_changes[0];
+
+	int parachute_status = 0; // 0 is non-deployed, 1 is deployed. Used to minimize comparisons during loop
+	int launch_rail_status = 1; // 1 is on launch rail, 0 is off launch rail
+	int stage_number = 0; // For incrementing stage arrays
+	int stage_subnumber = 0; // 0 is burn phase, 1 is glide phase;
+
+
+	return 0;
+}
+
 
 // Getter functions for values at indices in vectors
 double trajectorymodel::get_times(int index){
@@ -163,6 +266,49 @@ int trajectorymodel::clear_stage_dry_masses() {
 }
 int trajectorymodel::clear_stage_mass_rate_changes() {
 	stage_mass_rate_changes.clear();
+	return 0;
+}
+
+// Setting conditions
+int trajectorymodel::set_timestep_size(double timestep_size_input) {
+	timestep_size = timestep_size_input;
+	return 0;
+}
+int trajectorymodel::set_horizontal_direction(double horizontal_direction_input) {
+	horizontal_direction = horizontal_direction_input;
+	return 0;
+}
+int trajectorymodel::set_vertical_direction(double vertical_direction_input) {
+	vertical_direction = vertical_direction_input;
+	return 0;
+}
+int trajectorymodel::set_starting_altitude(double starting_altitude_input) {
+	starting_altitude = starting_altitude_input;
+	return 0;
+}
+int trajectorymodel::set_launch_rail_length(double launch_rail_length_input) {
+	launch_rail_length = launch_rail_length_input;
+	return 0;
+}
+int trajectorymodel::set_initial_mass(double initial_mass_input) {
+	initial_mass = initial_mass_input;
+	return 0;
+}
+
+int trajectorymodel::set_rocket_diameter(double rocket_diameter_input) {
+	rocket_diameter = rocket_diameter_input;
+	return 0;
+}
+int trajectorymodel::set_rocket_cd(double rocket_cd_input) {
+	rocket_cd = rocket_cd_input;
+	return 0;
+}
+int trajectorymodel::set_parachute_diameter(double parachute_diameter_input) {
+	parachute_diameter = parachute_diameter_input;
+	return 0;
+}
+int trajectorymodel::set_parachute_cd(double parachute_cd_input) {
+	parachute_cd = parachute_cd_input;
 	return 0;
 }
 
