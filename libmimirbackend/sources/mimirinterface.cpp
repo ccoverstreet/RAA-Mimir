@@ -67,6 +67,11 @@ int trajectorymodel::prepare_model() {
 		stage_firing_and_glide_times[i][1] = temp_buffer_time;
 	}
 
+	for (int i = 0; i < stage_impulses.size() - 1; i++ ) {
+		stage_separation.push_back(1);
+	}
+	stage_separation.push_back(0);
+
 
 	return 0;
 }
@@ -79,6 +84,8 @@ int trajectorymodel::calculate_trajectory() {
 	double g = 9.81; // m/s^2
 	double rho_air = 1.225; // kg/m^3
 	double Pi = 3.141592653589;
+
+	int number_of_stages = stage_impulses.size();
 
 	// Initial Conditions
 	times.push_back(0);
@@ -134,6 +141,116 @@ int trajectorymodel::calculate_trajectory() {
 	int stage_number = 0; // For incrementing stage arrays
 	int stage_subnumber = 0; // 0 is burn phase, 1 is glide phase;
 
+	// Main calculation loop
+	while (current_z_position >= 0 ) {
+		// Determining stage_number, stage_subnumber, and mass due to stage separations
+		if (parachute_status != 1) {
+			if (float(current_time) > stage_firing_and_glide_times[stage_number][stage_subnumber]) {
+				if (stage_subnumber == 0) { // The current stage is the burn stage
+					current_mass += -0.5 * stage_mass_rate_changes[stage_number]; // Eliminating mass offset
+
+					if (stage_delay_times[stage_number] == 0) { // No delay after current burn stage
+						if (stage_separation[stage_number] == 1){ // Checking if stage separates
+							current_mass += -stage_dry_masses[stage_number];
+						}	
+						
+						if (stage_number + 1 == number_of_stages) { // Current stage is the last stage and has no delay
+							parachute_status = 1; // Activating parachute
+							current_thrust = 0; // No thrust during parachute phase
+						} else {
+							stage_number += 1; // Moving on to next stage
+							current_mass += 0.5 * stage_mass_rate_changes[stage_number]; //Setting mass offset
+						}	
+					} else { // Delay after current burn stage
+						stage_subnumber = 1; // Switching to delay stage
+					}
+
+				} else { // Current stage is the glide stage
+					if (stage_separation[stage_number] == 1) { // Current stage separates
+							current_mass += -stage_dry_masses[stage_number]; // Subtracting mass of stage
+					}	
+					
+					if (stage_number + 1 == number_of_stages) { // If current stage is last stage
+						parachute_status = 1; // Deploying parachute
+						current_thrust = 0; // No thrust during parachute phase
+					} else {
+						stage_subnumber = 0; // Setting stage subnumber back to burn stage
+						stage_number += 1; // Moving to next stage
+						current_mass += 0.5 * stage_mass_rate_changes[stage_number]; // Setting mass offset
+					}
+				}	
+			}
+		}
+
+		// Setting thrust and changing mass as necessary. No action necessary for parachute phase as thrust is set to 0 automatically
+		if (parachute_status != 1) { // Parachute is not deployed
+			if (stage_subnumber == 0) { // Current stage is burn stage
+				current_mass += -stage_mass_rate_changes[stage_number];
+				current_thrust = stage_average_forces[stage_number]; 
+			} else { // Current stage is glide stage
+				current_thrust = 0;
+			} 
+		}	
+
+		// Drag Force Calculations
+		temp_pressure = pressure_0 * std::pow((1 - (temperature_lapse_rate * (starting_altitude + z_positions.back())) / (temperature_0)), (g * molar_mass_air) / (ideal_gas_constant * temperature_lapse_rate));
+		temp_density = (temp_pressure * molar_mass_air) / (ideal_gas_constant * (temperature_0 - temperature_lapse_rate * z_positions.back())); //  calculated density at current altitude
+
+		rocket_drag = 1 * rocket_drag_constant * temp_density * std::pow(current_speed, 2); // calculating rocket Drag
+		if (parachute_status == 1){
+			parachute_drag = 1 * parachute_drag_constant * temp_density * std::pow(current_speed, 2); // calculating parachute Drag
+		}
+
+		// Acceleration Calculations
+		current_x_acceleration = (current_thrust - parachute_drag - rocket_drag) * timestep_size * current_x_direction * (1 / current_mass);
+		current_y_acceleration = (current_thrust - parachute_drag - rocket_drag) * timestep_size * current_y_direction * (1 / current_mass);
+		current_z_acceleration = (current_thrust * current_z_direction - parachute_drag * current_z_direction - rocket_drag * current_z_direction - g * current_mass) * timestep_size * (1 / current_mass);
+
+		// Velocity Calculations
+		current_x_velocity += current_x_acceleration;
+		current_y_velocity += current_y_acceleration;
+		current_z_velocity += current_z_acceleration;
+
+		// Calculating currrent speed
+		current_speed = std::sqrt(std::pow(current_x_velocity, 2) + std::pow(current_y_velocity, 2) + std::pow(current_z_velocity, 2)); 
+
+		// Position Calculations
+		current_x_position += 0.5 * (current_x_velocity + x_velocities.back()) * timestep_size;
+		current_y_position += 0.5 * (current_y_velocity + y_velocities.back()) * timestep_size;
+		current_z_position += 0.5 * (current_z_velocity + z_velocities.back()) * timestep_size;
+
+		// Determining direction. Direction does not change if the rocket is still on the launch rail
+		if (launch_rail_status != 1){
+			current_x_direction = current_x_velocity / current_speed;
+			current_y_direction = current_y_velocity / current_speed;
+			current_z_direction = current_z_velocity / current_speed;
+		} else{
+			if (std::sqrt(std::pow(current_x_position, 2) + std::pow(current_y_position, 2) + std::pow(current_z_position, 2)) > launch_rail_length){
+				launch_rail_status = 0;
+			}
+		}
+
+		// Data storage
+		x_positions.push_back(current_x_position);
+		y_positions.push_back(current_y_position);
+		z_positions.push_back(current_z_position);
+
+		x_velocities.push_back(current_x_velocity);
+		y_velocities.push_back(current_y_velocity);
+		z_velocities.push_back(current_z_velocity);
+
+		x_accelerations.push_back(current_x_acceleration / (timestep_size * g));
+		y_accelerations.push_back(current_y_acceleration / (timestep_size * g));
+		z_accelerations.push_back(current_z_acceleration / (timestep_size * g));
+
+		halftimes.push_back((current_time - 0.5 * timestep_size));
+
+		times.push_back(current_time);
+	
+		
+		// Continue to next time step
+		current_time += timestep_size;
+	}
 
 	return 0;
 }
