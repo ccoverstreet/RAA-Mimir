@@ -29,6 +29,7 @@ class trajectorymodel {
 		std::vector<double> stage_dry_masses;
 		std::vector<double> stage_mass_rate_changes;
 		std::vector<double> stage_average_forces;
+		std::vector<int> stage_separation;
 
 		std::vector<std::vector<double>> stage_firing_and_glide_times;
 
