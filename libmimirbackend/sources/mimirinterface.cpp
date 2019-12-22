@@ -252,6 +252,7 @@ int trajectorymodel::calculate_trajectory() {
 		current_time += timestep_size;
 	}
 
+	printf("%f kg\n", current_mass);
 	return 0;
 }
 
