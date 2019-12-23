@@ -306,6 +306,7 @@ class trajectorymodel():
         print("\ntrajectorymodel object being deleted")
         lib.delete_trajectorymodel()
 
+
 class times():
     def __init__(self, ptr):
         self.parent_ptr = ptr
@@ -318,7 +319,10 @@ class times():
         return lib.len_times(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_times(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_times(self.parent_ptr, index)
+        else:
+            return lib.get_times(self.parent_ptr, self.__len__() + index)
 
 class x_positions():
     def __init__(self, ptr):
@@ -332,7 +336,10 @@ class x_positions():
         return lib.len_x_positions(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_x_positions(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_x_positions(self.parent_ptr, index)
+        else:
+            return lib.get_x_positions(self.parent_ptr, self.__len__() + index)
 
 class y_positions():
     def __init__(self, ptr):
@@ -346,7 +353,10 @@ class y_positions():
         return lib.len_y_positions(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_y_positions(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_y_positions(self.parent_ptr, index)
+        else:
+            return lib.get_y_positions(self.parent_ptr, self.__len__() + index)
 
 class z_positions():
     def __init__(self, ptr):
@@ -360,7 +370,10 @@ class z_positions():
         return lib.len_z_positions(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_z_positions(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_z_positions(self.parent_ptr, index)
+        else:
+            return lib.get_z_positions(self.parent_ptr, self.__len__() + index)
 
 class x_velocities():
     def __init__(self, ptr):
@@ -374,7 +387,10 @@ class x_velocities():
         return lib.len_x_velocities(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_x_velocities(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_x_velocities(self.parent_ptr, index)
+        else:
+            return lib.get_x_velocities(self.parent_ptr, self.__len__() + index)
 
 class y_velocities():
     def __init__(self, ptr):
@@ -388,7 +404,10 @@ class y_velocities():
         return lib.len_y_velocities(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_y_velocities(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_y_velocities(self.parent_ptr, index)
+        else:
+            return lib.get_y_velocities(self.parent_ptr, self.__len__() + index)
 
 class z_velocities():
     def __init__(self, ptr):
@@ -402,7 +421,10 @@ class z_velocities():
         return lib.len_z_velocities(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_z_velocities(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_z_velocities(self.parent_ptr, index)
+        else:
+            return lib.get_z_velocities(self.parent_ptr, self.__len__() + index)
     
 
 class halftimes():
@@ -417,7 +439,10 @@ class halftimes():
         return lib.len_halftimes(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_halftimes(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_halftimes(self.parent_ptr, index)
+        else:
+            return lib.get_z_velocities(self.parent_ptr, self.__len__() + index)
 
 class x_accelerations():
     def __init__(self, ptr):
@@ -431,7 +456,10 @@ class x_accelerations():
         return lib.len_x_accelerations(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_x_accelerations(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_x_accelerations(self.parent_ptr, index)
+        else:
+            return lib.get_x_accelerations(self.parent_ptr, self.__len__() + index)
 
 class y_accelerations():
     def __init__(self, ptr):
@@ -445,7 +473,10 @@ class y_accelerations():
         return lib.len_y_accelerations(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_y_accelerations(self.parent_ptr, index)
+        if index >= 0:
+            return lib.get_y_accelerations(self.parent_ptr, index)
+        else:
+            return lib.get_y_accelerations(self.parent_ptr, self.__len__() + index)
 
 class z_accelerations():
     def __init__(self, ptr):
@@ -459,10 +490,10 @@ class z_accelerations():
         return lib.len_z_accelerations(self.parent_ptr)
 
     def __getitem__(self, index):
-        return lib.get_z_accelerations(self.parent_ptr, index)
-
-
-
+        if index >= 0:
+            return lib.get_z_accelerations(self.parent_ptr, index)
+        else:
+            return lib.get_z_accelerations(self.parent_ptr, self.__len__() + index)
 
 
 if __name__ == "__main__":
