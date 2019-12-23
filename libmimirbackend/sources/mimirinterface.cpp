@@ -47,9 +47,6 @@ int trajectorymodel::prepare_model() {
 		double temp_mass_rate_change = ((stage_total_masses[i] - stage_dry_masses[i]) / stage_burn_times[i]) * timestep_size;
 
 		stage_mass_rate_changes.push_back(temp_mass_rate_change);
-
-		printf("Stage %i Force: %f\n", i, stage_average_forces[i]);
-		printf("Stage %i MRC: %f\n", i, stage_mass_rate_changes[i]);
 	}
 
 	int m = int(stage_impulses.size()), n = 2;
@@ -252,7 +249,6 @@ int trajectorymodel::calculate_trajectory() {
 		current_time += timestep_size;
 	}
 
-	printf("%f kg\n", current_mass);
 	return 0;
 }
 

@@ -1,6 +1,8 @@
 from ctypes import *
 import os
 
+import matplotlib.pyplot as plt
+
 
 mimir_dir = os.path.abspath(__file__).replace("/mimirpywrapper/trajectorymodel.py", "")
 
@@ -133,7 +135,6 @@ lib.calculate_trajectory.restype = c_int
 lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
-
 class trajectorymodel():
     def __init__(self):
         self.ptr = lib.create_trajectorymodel()
@@ -153,6 +154,76 @@ class trajectorymodel():
 
     def calculate_trajectory(self):
         lib.calculate_trajectory(self.ptr)
+
+    def plot_results(self):
+        # Graphical Output
+        fig = plt.figure()
+        fig.subplots_adjust(hspace=0.5)
+        ax_x_pos = fig.add_subplot(331)
+        ax_y_pos = fig.add_subplot(334)
+        ax_z_pos = fig.add_subplot(337)
+
+        ax_x_vel = fig.add_subplot(332)
+        ax_y_vel = fig.add_subplot(335)
+        ax_z_vel = fig.add_subplot(338)
+
+        ax_x_acc = fig.add_subplot(333)
+        ax_y_acc = fig.add_subplot(336)
+        ax_z_acc = fig.add_subplot(339)
+
+        # Plotting Data
+        ax_x_pos.plot(self.times, self.x_positions)
+        ax_y_pos.plot(self.times, self.y_positions)
+        ax_z_pos.plot(self.times, self.z_positions)
+
+        ax_x_vel.plot(self.times, self.x_velocities)
+        ax_y_vel.plot(self.times, self.y_velocities)
+        ax_z_vel.plot(self.times, self.z_velocities)
+
+        ax_x_acc.plot(self.halftimes, self.x_accelerations)
+        ax_y_acc.plot(self.halftimes, self.y_accelerations)
+        ax_z_acc.plot(self.halftimes, self.z_accelerations)
+
+        # Formatting
+        ax_x_pos.set_title("X-Position")
+        ax_y_pos.set_title("Y-Position")
+        ax_z_pos.set_title("Z-Position")
+
+        ax_x_vel.set_title("X-Velocity")
+        ax_y_vel.set_title("Y-Velocity")
+        ax_z_vel.set_title("Z-Velocity")
+
+        ax_x_acc.set_title("X-Acceleration")
+        ax_y_acc.set_title("Y-Acceleration")
+        ax_z_acc.set_title("Z-Acceleration")
+
+        ax_x_pos.set_xlabel("Time (s)")
+        ax_x_pos.set_ylabel("X-Distance (m)")
+        ax_y_pos.set_xlabel("Time (s)")
+        ax_y_pos.set_ylabel("Y-Distance (m)")
+        ax_z_pos.set_xlabel("Time (s)")
+        ax_z_pos.set_ylabel("Altitude (m)")
+
+        ax_x_vel.set_xlabel("Time (s)")
+        ax_x_vel.set_ylabel("Velocity (m/s)")
+        ax_y_vel.set_xlabel("Time (s)")
+        ax_y_vel.set_ylabel("Velocity (m/s)")
+        ax_z_vel.set_xlabel("Time (s)")
+        ax_z_vel.set_ylabel("Velocity (m/s)")
+
+
+        ax_x_acc.set_xlabel("Time (s)")
+        ax_x_acc.set_ylabel("Acceleration (m/s^2)")
+        ax_y_acc.set_xlabel("Time (s)")
+        ax_y_acc.set_ylabel("Acceleration (m/s^2)")
+        ax_z_acc.set_xlabel("Time (s)")
+        ax_z_acc.set_ylabel("Acceleration (m/s^2)")
+
+        # Gets current figure window manager and forces maximized display
+        fig_manager = plt.get_current_fig_manager()
+        fig_manager.window.showMaximized() 
+        plt.show()
+
 
     def set_stage_impulses(self, impulses_list):
         self.impulses_list = impulses_list
@@ -232,7 +303,7 @@ class trajectorymodel():
 
 
     def __del__(self):
-        print("trajectorymodel object being deleted")
+        print("\ntrajectorymodel object being deleted")
         lib.delete_trajectorymodel()
 
 class times():
