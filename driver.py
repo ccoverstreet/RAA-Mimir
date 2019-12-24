@@ -31,24 +31,9 @@ def Gen_Test_1():
     x.calculate_trajectory()
 
     # Plotting results
-    print("\tCalculation finished... Graphing results")
+    x.print_results()
     x.plot_results()
 
-    # Getting max altitude
-    print("\n\tKey Values:")
-    print("\t\tTime of Flight: {}".format(x.times[-1]))
-    print("\t\tMax Altitude: {}".format(max(x.z_positions))) # Prints max value
-    print("\t\tX Final Position: {}".format(x.x_positions[-1]))    
-    print("\t\tY Final Position: {}".format(x.y_positions[-1]))    
-    print("\t\tZ Final Position: {}".format(x.z_positions[-1]))    
-
-    print("\t\tX Final Velocity: {}".format(x.x_velocities[-1]))    
-    print("\t\tY Final Velocity: {}".format(x.y_velocities[-1]))    
-    print("\t\tZ Final Velocity: {}".format(x.z_velocities[-1]))    
-
-    print("\t\tX Final Acceleration: {}".format(x.x_accelerations[-1]))
-    print("\t\tY Final Acceleration: {}".format(x.y_accelerations[-1]))
-    print("\t\tZ Final Acceleration: {}".format(x.z_accelerations[-1]))
 
 
 def main():

@@ -154,6 +154,23 @@ class trajectorymodel():
 
     def calculate_trajectory(self):
         lib.calculate_trajectory(self.ptr)
+        print("Calculation finished")
+
+    def print_results(self):
+        print("\n\tData Summary:")
+        print("\t\tTime of Flight: {}".format(self.times[-1]))
+        print("\t\tMax Altitude: {}".format(max(self.z_positions))) # Prints max value
+        print("\t\tX Final Position: {}".format(self.x_positions[-1]))    
+        print("\t\tY Final Position: {}".format(self.y_positions[-1]))    
+        print("\t\tZ Final Position: {}".format(self.z_positions[-1]))    
+
+        print("\t\tX Final Velocity: {}".format(self.x_velocities[-1]))    
+        print("\t\tY Final Velocity: {}".format(self.y_velocities[-1]))    
+        print("\t\tZ Final Velocity: {}".format(self.z_velocities[-1]))    
+
+        print("\t\tX Final Acceleration: {}".format(self.x_accelerations[-1]))
+        print("\t\tY Final Acceleration: {}".format(self.y_accelerations[-1]))
+        print("\t\tZ Final Acceleration: {}".format(self.z_accelerations[-1]))
 
     def plot_results(self):
         # Graphical Output
