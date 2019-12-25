@@ -24,20 +24,18 @@ def Gen_Test_1():
     x.set_vertical_direction(85)
     x.set_horizontal_direction(45)
     x.set_initial_mass(0.100)
+    x.set_starting_altitude(0)
     x.set_launch_rail_length(1)
 
     # Running Calculations
     print("\tStarting calculation with timestep {} seconds".format(timestep))
     x.calculate_trajectory()
 
-    # Plotting results
-    print("\tCalculation finished... Graphing results")
-    x.plot_results()
+    print("MAX SPEED: {} {}".format(x.max_speed[0], x.max_speed[1]))
 
-    # Getting max altitude
-    print("\n\tKey Values:")
-    print("\t\tTime of Flight: {}".format(x.times[-1]))
-    print("\t\tMax Altitude: {}".format(max(x.z_positions))) # Prints max value
+    # Plotting results
+    x.print_results()
+    x.plot_results()
 
 
 
