@@ -34,18 +34,25 @@ class trajectorymodel {
 		std::vector<std::vector<double>> stage_firing_and_glide_times;
 
 		//Initial Conditions
-		double timestep_size = 0;
-		double horizontal_direction = 0;
-		double vertical_direction = 0;
-		double starting_altitude = 0;
-		double launch_rail_length = 0;
-		double initial_mass = 0;
+		double timestep_size = -1;
+		double horizontal_direction = -1;
+		double vertical_direction = -1;
+		double starting_altitude = -1;
+		double launch_rail_length = -1;
+		double initial_mass = -1;
 
 		//Rocket Characteristics
-		double rocket_diameter = 0;
-		double rocket_cd = 0;
-		double parachute_diameter = 0;
-		double parachute_cd = 0;
+		double rocket_diameter = -1;
+		double rocket_cd = -1;
+		double parachute_diameter = -1;
+		double parachute_cd = -1;
+
+		// Result values like apogee and whatnot
+		double apogee = -1;
+		double max_speed = -1;
+		double max_speed_time = -1;
+		double max_acceleration = -1;
+		double final_mass = -1;
 
 
 	public:
@@ -102,11 +109,26 @@ class trajectorymodel {
 		int set_starting_altitude(double); // Return 0 for no error
 		int set_launch_rail_length(double); // Return 0 for no error
 		int set_initial_mass(double); // Return 0 for no error
-
 		int set_rocket_diameter(double); // Return 0 for no error
 		int set_rocket_cd(double); // Return 0 for no error
 		int set_parachute_diameter(double); // Return 0 for no error
 		int set_parachute_cd(double); // return 0 for no error
+		
+		// Getters for discrete values
+		double get_timestep_size(); 
+		double get_horizontal_direction(); 
+		double get_vertical_direction(); 
+		double get_starting_altitude(); 
+		double get_launch_rail_length(); 
+		double get_initial_mass(); 
+		double get_rocket_diameter(); 
+		double get_rocket_cd(); 
+		double get_parachute_diameter(); 
+		double get_parachute_cd(); 
+		double get_max_speed();
+		double get_max_speed_time();
+
+
 };
 
 // START OF C INTERFACE DECLARATIONS
@@ -271,6 +293,43 @@ extern "C" {
 	}
 	int set_parachute_cd(trajectorymodel* ptr, double parachute_cd) {
 		return reinterpret_cast<trajectorymodel*>(ptr)->set_parachute_cd(parachute_cd);
+	}
+
+	double get_timestep_size(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_timestep_size();
+	}
+	double get_horizontal_direction(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_horizontal_direction();
+	}
+	double get_vertical_direction(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_vertical_direction();
+	}
+	double get_starting_altitude(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_starting_altitude();
+	}
+	double get_launch_rail_length(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_launch_rail_length();
+	}
+	double get_initial_mass(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_initial_mass();
+	}
+	double get_rocket_diameter(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_rocket_diameter();
+	}
+	double get_rocket_cd(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_rocket_cd();
+	}
+	double get_parachute_diameter(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_parachute_diameter();
+	}
+	double get_parachute_cd(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_parachute_cd();
+	}
+	double get_max_speed(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_max_speed();
+	}
+	double get_max_speed_time(trajectorymodel* ptr) {
+		return reinterpret_cast<trajectorymodel*>(ptr)->get_max_speed_time();
 	}
 	
 	int trajectorymodel_fill_data(trajectorymodel* ptr, int size) {

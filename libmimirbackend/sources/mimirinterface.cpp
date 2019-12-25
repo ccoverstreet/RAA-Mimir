@@ -208,8 +208,13 @@ int trajectorymodel::calculate_trajectory() {
 		current_y_velocity += current_y_acceleration;
 		current_z_velocity += current_z_acceleration;
 
-		// Calculating currrent speed
+		// Calculating current speed
 		current_speed = std::sqrt(std::pow(current_x_velocity, 2) + std::pow(current_y_velocity, 2) + std::pow(current_z_velocity, 2)); 
+		// Checking if new speed is max speed up until timestep
+		if (current_speed > max_speed) {
+			max_speed = current_speed;
+			max_speed_time = current_time;
+		}
 
 		// Position Calculations
 		current_x_position += 0.5 * (current_x_velocity + x_velocities.back()) * timestep_size;
@@ -248,6 +253,8 @@ int trajectorymodel::calculate_trajectory() {
 		// Continue to next time step
 		current_time += timestep_size;
 	}
+
+	printf("Max Speed %f at %f\n", max_speed, max_speed_time);
 
 	return 0;
 }
@@ -383,7 +390,7 @@ int trajectorymodel::clear_stage_mass_rate_changes() {
 	return 0;
 }
 
-// Setting conditions
+// Setting discrete values
 int trajectorymodel::set_timestep_size(double timestep_size_input) {
 	timestep_size = timestep_size_input;
 	return 0;
@@ -408,7 +415,6 @@ int trajectorymodel::set_initial_mass(double initial_mass_input) {
 	initial_mass = initial_mass_input;
 	return 0;
 }
-
 int trajectorymodel::set_rocket_diameter(double rocket_diameter_input) {
 	rocket_diameter = rocket_diameter_input;
 	return 0;
@@ -425,4 +431,43 @@ int trajectorymodel::set_parachute_cd(double parachute_cd_input) {
 	parachute_cd = parachute_cd_input;
 	return 0;
 }
+
+// Getting discrete values
+double trajectorymodel::get_timestep_size() {
+	return timestep_size;
+}
+double trajectorymodel::get_horizontal_direction() {
+	return horizontal_direction;
+}
+double trajectorymodel::get_vertical_direction() {
+	return vertical_direction;
+}
+double trajectorymodel::get_starting_altitude() {
+	return starting_altitude;
+}
+double trajectorymodel::get_launch_rail_length() {
+	return launch_rail_length;
+}
+double trajectorymodel::get_initial_mass() {
+	return initial_mass;
+}
+double trajectorymodel::get_rocket_diameter() {
+	return rocket_diameter;
+}
+double trajectorymodel::get_rocket_cd() {
+	return rocket_cd;
+}
+double trajectorymodel::get_parachute_diameter() {
+	return parachute_diameter;
+}
+double trajectorymodel::get_parachute_cd() {
+	return parachute_cd;
+}
+double trajectorymodel::get_max_speed() {
+	return max_speed;
+}
+double trajectorymodel::get_max_speed_time() {
+	return max_speed_time;
+}
+
 

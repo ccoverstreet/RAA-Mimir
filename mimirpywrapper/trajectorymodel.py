@@ -129,6 +129,42 @@ lib.set_parachute_diameter.restype = c_int
 lib.set_parachute_cd.argtypes = [c_void_p, c_double]
 lib.set_parachute_cd.restype = c_int
 
+lib.get_timestep_size.argtypes = [c_void_p]
+lib.get_timestep_size.restype = c_double
+
+lib.get_horizontal_direction.argtypes = [c_void_p]
+lib.get_horizontal_direction.restype = c_double
+
+lib.get_vertical_direction.argtypes = [c_void_p]
+lib.get_vertical_direction.restype = c_double
+
+lib.get_starting_altitude.argtypes = [c_void_p]
+lib.get_starting_altitude.restype = c_double
+
+lib.get_launch_rail_length.argtypes = [c_void_p]
+lib.get_launch_rail_length.restype = c_double
+
+lib.get_initial_mass.argtypes = [c_void_p]
+lib.get_initial_mass.restype = c_double
+
+lib.get_rocket_diameter.argtypes = [c_void_p]
+lib.get_rocket_diameter.restype = c_double
+
+lib.get_rocket_cd.argtypes = [c_void_p]
+lib.get_rocket_cd.restype = c_double
+
+lib.get_parachute_diameter.argtypes = [c_void_p]
+lib.get_parachute_diameter.restype = c_double
+
+lib.get_parachute_cd.argtypes = [c_void_p]
+lib.get_parachute_cd.restype = c_double
+
+lib.get_max_speed.argtypes = [c_void_p]
+lib.get_max_speed.restype = c_double
+
+lib.get_max_speed_time.argtypes = [c_void_p]
+lib.get_max_speed_time.restype = c_double
+
 lib.calculate_trajectory.argtypes = [c_void_p]
 lib.calculate_trajectory.restype = c_int
 
@@ -152,8 +188,33 @@ class trajectorymodel():
         self.y_accelerations = y_accelerations(self.ptr)
         self.z_accelerations = z_accelerations(self.ptr)
 
+        # Setting unset discrete values to -1, used to make sure that all values are set beforehand
+        self.timestep_size = -1
+        self.horizontal_direction = -1
+        self.vertical_direction = -1
+        self.starting_altitude = -1
+        self.launch_rail_length = -1
+        self.initial_mass = -1
+        self.rocket_diameter = -1
+        self.rocket_cd = -1
+        self.parachute_diameter = -1
+        self.parachute_cd = -1
+
+
     def calculate_trajectory(self):
+        self.update_initial_values()
+
+        # Checking to see if any values are unset
+        for attr in dir(self):
+            print(getattr(self, attr))
+            if getattr(self, attr) == -1:
+                print("Attribute {} not set, please set using the set_{} class method".format(attr, attr))
+                return
+
         lib.calculate_trajectory(self.ptr)
+
+        self.update_initial_values()
+        self.update_results()
         print("Calculation finished")
 
     def print_results(self):
@@ -315,8 +376,21 @@ class trajectorymodel():
     def set_parachute_cd(self, parachute_cd_input):
         lib.set_parachute_cd(self.ptr, c_double(parachute_cd_input))
 
-    def fill_data(self, size):
-        lib.trajectorymodel_fill_data(self.ptr, c_int(size))
+    def update_initial_values(self):
+        self.timestep_size = lib.get_timestep_size(self.ptr)
+        self.horizontal_direction = lib.get_horizontal_direction(self.ptr)
+        self.vertical_direction = lib.get_vertical_direction(self.ptr)
+        self.starting_altitude = lib.get_starting_altitude(self.ptr)
+        self.launch_rail_length = lib.get_launch_rail_length(self.ptr)
+        self.initial_mass = lib.get_initial_mass(self.ptr)
+        self.rocket_diameter = lib.get_rocket_diameter(self.ptr)
+        self.rocket_cd = lib.get_rocket_cd(self.ptr)
+        self.parachute_diameter = lib.get_parachute_diameter(self.ptr)
+        self.parachute_cd = lib.get_parachute_cd(self.ptr)
+
+    def update_results(self):
+        print(lib.get_max_speed_time(self.ptr))
+        self.max_speed = (lib.get_max_speed(self.ptr), lib.get_max_speed_time(self.ptr))
 
 
     def __del__(self):
