@@ -206,7 +206,6 @@ class trajectorymodel():
 
         # Checking to see if any values are unset
         for attr in dir(self):
-            print(getattr(self, attr))
             if getattr(self, attr) == -1:
                 print("Attribute {} not set, please set using the set_{} class method".format(attr, attr))
                 return
@@ -219,19 +218,20 @@ class trajectorymodel():
 
     def print_results(self):
         print("\n\tData Summary:")
-        print("\t\tTime of Flight: {}".format(self.times[-1]))
-        print("\t\tMax Altitude: {}".format(max(self.z_positions))) # Prints max value
-        print("\t\tX Final Position: {}".format(self.x_positions[-1]))    
-        print("\t\tY Final Position: {}".format(self.y_positions[-1]))    
-        print("\t\tZ Final Position: {}".format(self.z_positions[-1]))    
+        print("\t\tTime of Flight: {} s".format(self.times[-1]))
+        print("\t\tMax Altitude: {} m".format(max(self.z_positions))) # Prints max value
+        print("\t\tMax Speed: {} m at {} s".format(self.max_speed[0], self.max_speed[1]))
+        print("\t\tX Final Position: {} m".format(self.x_positions[-1]))    
+        print("\t\tY Final Position: {} m".format(self.y_positions[-1]))    
+        print("\t\tZ Final Position: {} m".format(self.z_positions[-1]))    
 
-        print("\t\tX Final Velocity: {}".format(self.x_velocities[-1]))    
-        print("\t\tY Final Velocity: {}".format(self.y_velocities[-1]))    
-        print("\t\tZ Final Velocity: {}".format(self.z_velocities[-1]))    
+        print("\t\tX Final Velocity: {} m/s".format(self.x_velocities[-1]))    
+        print("\t\tY Final Velocity: {} m/s".format(self.y_velocities[-1]))    
+        print("\t\tZ Final Velocity: {} m/s".format(self.z_velocities[-1]))    
 
-        print("\t\tX Final Acceleration: {}".format(self.x_accelerations[-1]))
-        print("\t\tY Final Acceleration: {}".format(self.y_accelerations[-1]))
-        print("\t\tZ Final Acceleration: {}".format(self.z_accelerations[-1]))
+        print("\t\tX Final Acceleration: {} m/s^2".format(self.x_accelerations[-1]))
+        print("\t\tY Final Acceleration: {} m/s^2".format(self.y_accelerations[-1]))
+        print("\t\tZ Final Acceleration: {} m/s^2".format(self.z_accelerations[-1]))
 
     def plot_results(self):
         # Graphical Output
@@ -389,7 +389,6 @@ class trajectorymodel():
         self.parachute_cd = lib.get_parachute_cd(self.ptr)
 
     def update_results(self):
-        print(lib.get_max_speed_time(self.ptr))
         self.max_speed = (lib.get_max_speed(self.ptr), lib.get_max_speed_time(self.ptr))
 
 

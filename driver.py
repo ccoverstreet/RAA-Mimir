@@ -31,7 +31,6 @@ def Gen_Test_1():
     print("\tStarting calculation with timestep {} seconds".format(timestep))
     x.calculate_trajectory()
 
-    print("MAX SPEED: {} {}".format(x.max_speed[0], x.max_speed[1]))
 
     # Plotting results
     x.print_results()

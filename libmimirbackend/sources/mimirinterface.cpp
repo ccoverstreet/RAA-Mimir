@@ -254,8 +254,6 @@ int trajectorymodel::calculate_trajectory() {
 		current_time += timestep_size;
 	}
 
-	printf("Max Speed %f at %f\n", max_speed, max_speed_time);
-
 	return 0;
 }
 
