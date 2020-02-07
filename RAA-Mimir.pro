@@ -4,8 +4,8 @@
 
 TEMPLATE = subdirs
 SUBDIRS = \
-	app \
-	libmimirbackend
+	libmimirbackend \
+	app
 TARGET = RAA-Mimir
 INCLUDEPATH += .
 

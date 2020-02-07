@@ -8,6 +8,7 @@ __pycache__
 Makefile
 libmimirbackend/libmimirbackend.so*
 libmimirbackend/*.o
-
+app/*.o
+RAA-Mimir
 
 
