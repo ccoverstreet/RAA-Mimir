@@ -216,10 +216,16 @@ int trajectorymodel::calculate_trajectory() {
 			max_speed_time = current_time;
 		}
 
+
 		// Position Calculations
 		current_x_position += 0.5 * (current_x_velocity + x_velocities.back()) * timestep_size;
 		current_y_position += 0.5 * (current_y_velocity + y_velocities.back()) * timestep_size;
 		current_z_position += 0.5 * (current_z_velocity + z_velocities.back()) * timestep_size;
+
+		// Checking if current altitude is higher than previous
+		if (current_z_position > apogee) {
+			apogee = current_z_position;
+		}
 
 		// Determining direction. Direction does not change if the rocket is still on the launch rail
 		if (launch_rail_status != 1){
@@ -460,6 +466,9 @@ double trajectorymodel::get_parachute_diameter() {
 }
 double trajectorymodel::get_parachute_cd() {
 	return parachute_cd;
+}
+double trajectorymodel::get_apogee() {
+	return apogee;
 }
 double trajectorymodel::get_max_speed() {
 	return max_speed;

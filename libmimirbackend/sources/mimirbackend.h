@@ -125,6 +125,7 @@ class trajectorymodel {
 		double get_rocket_cd(); 
 		double get_parachute_diameter(); 
 		double get_parachute_cd(); 
+		double get_apogee();
 		double get_max_speed();
 		double get_max_speed_time();
 

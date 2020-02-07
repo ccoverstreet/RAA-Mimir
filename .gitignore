@@ -4,4 +4,10 @@ mimirpywrapper/__pycache__
 libmimirbackend/libmimirbackend.so
 libmimirbackend/objects/*.o
 __pycache__
+.qmake.stash
+Makefile
+libmimirbackend/libmimirbackend.so*
+libmimirbackend/*.o
+
+
 
