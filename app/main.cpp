@@ -32,13 +32,18 @@ void test_mimirbackend() {
 	x.pushback_stage_total_masses(0.1);
 	x.pushback_stage_dry_masses(0.07);
 
-	printf("\tPreparing model...\n");
+	printf("\tIdentifying Model...\n\n");
+	x.identify();
+
+	printf("\n\tPreparing model...\n");
 	x.prepare_model();	
 
 	printf("\tRunning Trajectory Calculation...\n");
 	x.calculate_trajectory();
 	printf("\tFinished Calculation\n");
-	printf("\nApogee: %f\n", x.get_apogee());
+	printf("\n\tResults:\n");
+	printf("\t\tApogee: %f\n", x.get_apogee());
+	printf("\t\tTime of Apogee: %f\n", x.get_apogee_time());
 }
 
 int main() {

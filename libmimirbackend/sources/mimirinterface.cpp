@@ -15,33 +15,18 @@ trajectorymodel::~trajectorymodel() {
 	//delete arraydata;
 }
 
-int trajectorymodel::fill_data(int size) {
-	for (int i = 0; i < size; i++) {
-		times.push_back(i / double(10));
-		x_positions.push_back(double(i * i));
-		y_positions.push_back(2 * i / double(3));
-		z_positions.push_back(4 * i / double(3));
-
-		x_velocities.push_back(3 * i / double(3));
-		y_velocities.push_back(5 * i / double(3));
-		z_velocities.push_back(7 * i / double(3));
-	}
-
-	for (int i = 0; i < size - 1; i++) {
-		halftimes.push_back(i / double(10) + 0.05);
-		x_accelerations.push_back(3 * i / double(3));
-		y_accelerations.push_back(5 * i / double(3));
-		z_accelerations.push_back(7 * i / double(3));
-	}
-
-	return 0;
+void trajectorymodel::identify() {
+	printf("trajectorymodel object:\n"
+			"\tTimestep Size: %f\n"
+			"\tHorizontal Direction: %f\n"
+			"\tVertical Direction: %f\n",
+			timestep_size, horizontal_direction, vertical_direction);
 }
-
 
 
 int trajectorymodel::prepare_model() {
 	// Filling stage_average_force and stage_mass_rate_change
-	for (int i = 0; i < stage_impulses.size(); i++) {
+	for (long unsigned int i = 0; i < stage_impulses.size(); i++) {
 		stage_average_forces.push_back(stage_impulses[i] / stage_burn_times[i]);
 
 		double temp_mass_rate_change = ((stage_total_masses[i] - stage_dry_masses[i]) / stage_burn_times[i]) * timestep_size;
@@ -64,7 +49,7 @@ int trajectorymodel::prepare_model() {
 		stage_firing_and_glide_times[i][1] = temp_buffer_time;
 	}
 
-	for (int i = 0; i < stage_impulses.size() - 1; i++ ) {
+	for (long unsigned int i = 0; i < stage_impulses.size() - 1; i++ ) {
 		stage_separation.push_back(1);
 	}
 	stage_separation.push_back(0);
@@ -79,7 +64,6 @@ int trajectorymodel::calculate_trajectory() {
 
 	// Environment Variables
 	double g = 9.81; // m/s^2
-	double rho_air = 1.225; // kg/m^3
 	double Pi = 3.141592653589;
 
 	int number_of_stages = stage_impulses.size();
@@ -191,7 +175,7 @@ int trajectorymodel::calculate_trajectory() {
 
 		// Drag Force Calculations
 		temp_pressure = pressure_0 * std::pow((1 - (temperature_lapse_rate * (starting_altitude + z_positions.back())) / (temperature_0)), (g * molar_mass_air) / (ideal_gas_constant * temperature_lapse_rate));
-		temp_density = (temp_pressure * molar_mass_air) / (ideal_gas_constant * (temperature_0 - temperature_lapse_rate * z_positions.back())); //  calculated density at current altitude
+		temp_density = (temp_pressure * molar_mass_air) / (ideal_gas_constant * (temperature_0 - temperature_lapse_rate * (current_altitude + z_positions.back()))); //  calculated density at current altitude
 
 		rocket_drag = 1 * rocket_drag_constant * temp_density * std::pow(current_speed, 2); // calculating rocket Drag
 		if (parachute_status == 1){
@@ -225,6 +209,7 @@ int trajectorymodel::calculate_trajectory() {
 		// Checking if current altitude is higher than previous
 		if (current_z_position > apogee) {
 			apogee = current_z_position;
+			apogee_time = current_time;
 		}
 
 		// Determining direction. Direction does not change if the rocket is still on the launch rail
@@ -369,6 +354,8 @@ int trajectorymodel::pushback_stage_mass_rate_changes(double entry) {
 	return 0;
 }
 
+
+// Tools for clearing model 
 int trajectorymodel::clear_stage_impulses() {
 	stage_impulses.clear();
 	return 0;
@@ -467,8 +454,13 @@ double trajectorymodel::get_parachute_diameter() {
 double trajectorymodel::get_parachute_cd() {
 	return parachute_cd;
 }
+
+// Result Getters
 double trajectorymodel::get_apogee() {
 	return apogee;
+}
+double trajectorymodel::get_apogee_time() {
+	return apogee_time;
 }
 double trajectorymodel::get_max_speed() {
 	return max_speed;

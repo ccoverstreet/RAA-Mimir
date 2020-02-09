@@ -49,6 +49,7 @@ class trajectorymodel {
 
 		// Result values like apogee and whatnot
 		double apogee = -1;
+		double apogee_time = -1;
 		double max_speed = -1;
 		double max_speed_time = -1;
 		double max_acceleration = -1;
@@ -58,7 +59,6 @@ class trajectorymodel {
 	public:
 		~trajectorymodel();
 		void identify(); // Prints out object type. Used for setup testing.
-		int fill_data(int);
 
 		int prepare_model();
 		int calculate_trajectory(); // Main trajectory calculating function
@@ -125,7 +125,10 @@ class trajectorymodel {
 		double get_rocket_cd(); 
 		double get_parachute_diameter(); 
 		double get_parachute_cd(); 
+
+		// Getters for result values
 		double get_apogee();
+		double get_apogee_time();
 		double get_max_speed();
 		double get_max_speed_time();
 
@@ -140,6 +143,7 @@ extern "C" {
 	}
 
 	void delete_trajectorymodel(trajectorymodel* ptr) {
+		std::cout << ptr;
 	}
 
 	int calculate_trajectory(trajectorymodel* ptr) {
@@ -332,9 +336,4 @@ extern "C" {
 	double get_max_speed_time(trajectorymodel* ptr) {
 		return reinterpret_cast<trajectorymodel*>(ptr)->get_max_speed_time();
 	}
-	
-	int trajectorymodel_fill_data(trajectorymodel* ptr, int size) {
-		return reinterpret_cast<trajectorymodel*>(ptr)->fill_data(size);
-	}
-
 }
