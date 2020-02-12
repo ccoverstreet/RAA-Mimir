@@ -5,6 +5,9 @@
 
 #include <iostream>
 
+#include <QtWidgets>
+#include "testwidget.h"
+
 // Include Mimir Backend Library
 #include "../libmimirbackend/sources/mimirbackend.h"
 
@@ -48,13 +51,23 @@ void test_mimirbackend() {
 	
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 	printf("RAA Mimir\n");
 	printf("Cale Overstreet\n");
 	printf("February 7, 2020\n");
 
 	// Test function to make sure library functions correctly
 	test_mimirbackend();
+
+	QApplication app(argc, argv);
+    app.setWindowIcon(QIcon("./home_icon.png"));
+
+
+    testwidget w;
+    w.setGeometry(100, 100, 1080, 640);
+    w.show();
+
+    return app.exec();
 	
 	return 0;
 }
