@@ -6,7 +6,8 @@
 #include <iostream>
 
 #include <QtWidgets>
-#include "testwidget.h"
+//#include "testwidget.h"
+#include "sources/mainwindow.h"
 
 // Include Mimir Backend Library
 #include "../libmimirbackend/sources/mimirbackend.h"
@@ -57,13 +58,13 @@ int main(int argc, char* argv[]) {
 	printf("February 7, 2020\n");
 
 	// Test function to make sure library functions correctly
-	test_mimirbackend();
+	// test_mimirbackend();
 
 	QApplication app(argc, argv);
     app.setWindowIcon(QIcon("./home_icon.png"));
 
 
-    testwidget w;
+    raa_mainwindow w;
     w.setGeometry(100, 100, 1080, 640);
     w.show();
 

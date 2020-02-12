@@ -17,7 +17,7 @@ testwidget::testwidget(QWidget* parent) : QWidget(parent) {
 	input_layout->addWidget(clear_button);
 	input_layout->addWidget(reset_view_button);
 
-	browser = new QTextBrowser();
+~	browser = new QTextBrowser();
 	browser->setStyleSheet("background-color: #2C2C2C; color: #f0f0f0; font-size: 18px");
 
 	series = new QLineSeries();

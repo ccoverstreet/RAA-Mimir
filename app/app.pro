@@ -19,5 +19,5 @@ QT += charts
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-SOURCES += main.cpp testwidget.cpp
-HEADERS += testwidget.h
+SOURCES += main.cpp sources/mainwindow.cpp sources/primarycontainer.cpp
+HEADERS += sources/mainwindow.h sources/primarycontainer.h
