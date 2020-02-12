@@ -2,7 +2,8 @@
 // Cale Overstreet 11/27/2019
 // Interface for mimir backend. Interface itself uses "C" to externalize C++ functions to be used by Python Ctypes.
 
-#pragma once
+#ifndef LIBMIMIR
+#define LIBMIMIR
 
 #include <iostream>
 #include <vector>
@@ -337,3 +338,5 @@ extern "C" {
 		return reinterpret_cast<trajectorymodel*>(ptr)->get_max_speed_time();
 	}
 }
+
+#endif

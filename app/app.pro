@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = ../RAA-Mimir
-INCLUDEPATH += . ../libmimirbackend/sources
+INCLUDEPATH += . ../libmimirbackend/sources ../libmimirbackend
 LIBS += -L../libmimirbackend -lmimirbackend
 QMAKE_LFLAGS += \'-Wl,-rpath=\$$ORIGIN/libmimirbackend\'
 

@@ -9,12 +9,13 @@
 #include "../libmimirbackend/sources/mimirbackend.h"
 
 void test_mimirbackend() {
+	
 	printf("\nTesting Mimir Backend...\n");
 
 	trajectorymodel x;
 
 	printf("\tSetting parameters...\n");
-	x.set_timestep_size(0.01);
+	x.set_timestep_size(0.001);
 	x.set_horizontal_direction(0);
 	x.set_vertical_direction(80);
 	x.set_starting_altitude(0);
@@ -44,6 +45,7 @@ void test_mimirbackend() {
 	printf("\n\tResults:\n");
 	printf("\t\tApogee: %f\n", x.get_apogee());
 	printf("\t\tTime of Apogee: %f\n", x.get_apogee_time());
+	
 }
 
 int main() {

@@ -6,7 +6,6 @@ TEMPLATE = subdirs
 SUBDIRS = \
 	libmimirbackend \
 	app
-TARGET = RAA-Mimir
 INCLUDEPATH += .
 
 # You can make your code fail to compile if you use deprecated APIs.
