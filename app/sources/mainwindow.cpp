@@ -16,6 +16,7 @@ raa_mainwindow::raa_mainwindow(QMainWindow* parent) : QMainWindow(parent) {
 	connect(quit, &QAction::triggered, qApp, QApplication::quit);
 
 	container = new primarycontainer(this);
+	container->setStyleSheet("background-color: #ffffff");
 	setCentralWidget(container);
 }
 
