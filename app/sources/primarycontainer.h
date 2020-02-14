@@ -5,12 +5,15 @@
 #include <QSplitter>
 #include <QLabel>
 
+#include "testwidget.h"
+
 class primarycontainer: public QWidget {
 	Q_OBJECT
 
 	public:
 		explicit primarycontainer(QWidget* parent = 0);
 		~primarycontainer();
+		void identify();
 		
 	public slots:
 		void test_echo();
@@ -21,4 +24,5 @@ class primarycontainer: public QWidget {
 		QSplitter* top_splitter;
 		QPushButton* button;
 		QLabel* label;
+		testwidget* tester;
 };
