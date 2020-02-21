@@ -168,7 +168,6 @@ lib.get_max_speed_time.restype = c_double
 lib.calculate_trajectory.argtypes = [c_void_p]
 lib.calculate_trajectory.restype = c_int
 
-lib.trajectorymodel_fill_data.argtypes = [c_void_p, c_int]
 
 
 class trajectorymodel():
